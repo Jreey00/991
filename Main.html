@@ -1,0 +1,218 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-control" content="no-cache">
+		<meta http-equiv="Cache" content="no-cache">
+		<meta charset="utf-8">
+		<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
+		<title>7205</title>
+		    <meta charset="UTF-8">
+
+		    <script type="text/javascript" >		
+			    //判断时间是否为个位数，如果时间为个位数就在时间之前补上一个“0”
+			function check(val) {
+				if (val < 10) {
+					return ("0" + val);
+				} 
+				else {
+					return (val);
+				}
+			}
+			function displayTime() {
+				//获取div元素
+				var timeDiv=document.getElementById("timeDiv");
+				//获取系统当前的年、月、日、小时、分钟、毫秒
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate();
+				var hour = date.getHours();
+				var minutes = date.getMinutes();
+				var second = date.getSeconds();
+				var timestr = year + "年" + month + "月" + day + "日  " + check(hour)
+						+ ":" + check(minutes) + ":" + check(second);
+				//将系统时间设置到div元素中
+				timeDiv.innerHTML = timestr;
+			}
+			//每隔1秒调用一次displayTime函数
+			function start(){
+				window.setInterval("displayTime()",1000)//单位是毫秒
+			}
+		    function get_cfg_value(url)
+		    {
+		        var xmlhttp;
+		        if (window.XMLHttpRequest)
+		        {
+		            xmlhttp=new XMLHttpRequest();
+		        }
+		        else
+		        {
+		            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		        }
+		        xmlhttp.onreadystatechange=function()
+		        {
+		        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		        {   
+		            if(url=="/index.cgi?jt808url")
+		    	        document.getElementById("jt808url").innerHTML=xmlhttp.responseText;
+		            else if(url=="/index.cgi?jt808port")
+		                document.getElementById("jt808port").innerHTML=xmlhttp.responseText;
+		            else if(url=="/index.cgi?ncdpath")
+		                document.getElementById("ncdpath").innerHTML=xmlhttp.responseText;
+		            else if(url=="/index.cgi?devrebootcnt")
+		                document.getElementById("devrebootcnt").innerHTML=xmlhttp.responseText;
+		            else if(url=="/index.cgi?devsn")
+		                document.getElementById("demo").innerHTML="终端编号：" + xmlhttp.responseText;  
+								 
+		        }
+		        }
+		        xmlhttp.open("GET",url,true);
+		        xmlhttp.send();
+		    }
+			function button_select(id)
+			{
+				var show1 =document.getElementById("right1");
+				var show2 =document.getElementById("right2");
+				var show3 =document.getElementById("right3");
+				var btn =document.getElementById("btn");
+				//alert(id);
+				if(id == "btn")
+				{
+					if(show1.style.display != 'block')
+					{
+						show1.style.display = 'block';
+						show2.style.display = 'none';
+						show3.style.display = 'none';
+						//btn.value = "查询参数"
+						
+					}
+				}else if(id == "btn_set")
+				{
+					if(show2.style.display != 'block')
+					{
+						show1.style.display = 'none';
+						show2.style.display = 'block';
+						show3.style.display = 'none';
+						//btn.value = "查询参数"
+						
+					}
+					// else{
+					// 	show1.style.display = 'none';
+					// 	show2.style.display = 'block';
+					// 	//btn.value = "设置参数"
+					// }
+				}else if(id == "btn_up")
+				{
+					if(show3.style.display != 'block')
+					{
+						window.location.href='4.html';
+						// location.replace(document.referrer);
+						// show1.style.display = 'none';
+						// show2.style.display = 'none';
+						// show3.style.display = 'block';
+					}
+				}
+				
+			}
+			
+			
+		    </script>
+			
+			    <style>		
+
+					html, body {
+						height: 100%;
+						margin: 0px;
+						padding: 0px;
+					}
+
+					.outside {
+						/* background-color: aqua; */
+						height: 100%;
+						width: 100%;
+					}
+					.left {
+						/* background-color: chartreuse; */
+						height: 100%;
+						width: 20%;
+						float: left;
+					}
+					.right {
+						/* background-color: coral; */
+						height: 100%;
+						width: 80%;
+						float: left;
+						display: none;
+						
+					}
+					.right2 {
+						/* background-color: aqua; */
+						height: 100%;
+						width: 80%;
+						float: left;
+						display: none;
+					}
+					.right3 {
+						/* background-color: aqua; */
+						height: 100%;
+						width: 80%;
+						float: left;
+						display: none;
+					}
+					.btn1{
+						margin-left: 10px;
+						margin-top: 10px;
+						color: #06f;
+						border-color: #06f;
+						display: inline-block;
+						padding: 0 16px;
+						font-size: 14px;
+						line-height: 32px;
+						text-align: center;
+						cursor: pointer;
+						background: none;
+						border: 1px solid;
+						border-radius: 3px;
+					}
+
+			
+			    </style>
+	</head>
+	<body onload="start()";>
+	<div id="timeDiv"></div>
+		<div id = "out" class="outside">
+			<div class=left>
+				
+				<h3><b>选项设置</b></h3>
+				<br>
+				<input id="btn" type="button" class="btn1" onclick="button_select(id)" value="查询参数"><br />
+				<input id="btn_set" type="button" class="btn1" onclick="button_select(id)" value="设置参数"><br />
+				<input id="btn_up" type="button" class="btn1" onclick="button_select(id)" value="上传文件"><br />
+			</div>
+			<div id="right1" class="right">
+				<!--iframe src ="8.html" width="100%" height="100%" scrolling="yes"-->
+        <iframe src ="GetParam.html" width="100%" height="100%" scrolling="yes">
+					<!-- <iframe src ="/usr/nginx-1.18.0/html2/2.html" width="100%" height="100%" scrolling="yes"> -->
+				</iframe>
+			</div>
+			<div id="right2" class="right2" >
+				<iframe src ="Edit.html" width="100%" height="100%" scrolling="yes">
+					<!-- <iframe src ="/usr/nginx-1.18.0/html2/3.html" width="100%" height="100%" scrolling="yes"> -->
+						
+				</iframe>
+				
+			</div>
+			<div id="right3" class="right3" >
+				<iframe src ="File.html" width="100%" height="100%" scrolling="yes">
+					<!-- <iframe src ="/usr/nginx-1.18.0/html2/3.html" width="100%" height="100%" scrolling="yes"> -->
+						
+				</iframe>
+				
+			</div>
+		</div>
+
+	</body>
+</html>
+

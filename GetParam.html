@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content=    "no-cache">
+<meta http-equiv="Cache" content="no-cache">
+<meta charset="UTF-8">
+    <script type="text/javascript">
+var list=new Array(
+"MPU_VER",
+"RUN_TIME",
+"MPURECOUNT",
+"MCU_VER",
+"MCU_BTL_VER",
+"VIDEO_VER",
+"POWER_VOLT",
+"SD_CARD",
+"SIGNAL_4G",
+"SIM_STATUS",
+"ICCID",
+"IEME",
+"OTA_SN",
+"OTA_ADDR",
+"OTA_PORT",
+"GPS_TPYE",
+"GPS_HZ",
+"GPS_DISTANCE",
+"GPS_STATE",
+"GPS_LON",
+"GPS_LAT",
+"GPS_DGPS_STA_SN",
+"GPS_DGPS_IS_STA",
+"GPS_QX_KEY",
+"GPS_QX_SECRET",
+"GPS_QX_DEV_ID",
+"GPS_QX_DEV_TYPE",
+"DSU_TDMS_ENABLE",
+"DSU_TDMS_HZ",
+"DSU_AUTH_KEY",
+"DSU_TRIGER_BEFORE",
+"DSU_TRIGER_AFTER",
+"DSU_VIDEO_TRIGER_INX",
+"DSU_STOR_AUTO",
+"DSU_INX_HZ",
+"DSU_CAN_LOG",
+"DSU_GPS_LOG",
+"DSU_INX_ENABLE",
+"DSU_MDF_ENABLE",
+"DSU_ASC_CAN_LOG",
+"DSU_ASC_GPS_LOG",
+"DSU_ASC_LIN_LOG",
+"DSU_MF4_ENABLE",
+"DSU_PCAP_ENABLE",
+"DSU_FILE_MAX_SIZE",
+"DSU_MEDIUM_FSYS",
+"DSU_FILE_REB_TM",
+"DSU_RATIO_INSSD",
+"CAN_SLEEP_TM",
+"CAN_SLEEP_ENABLE",
+"DBC_PATH",
+"XCF_PATH",
+"CCF_PATH",
+"IDC_PATH",
+"LDF_PATH",
+"MULTI_XCF_INCAN",
+"XCPCCF_FPATH_CAN1",
+"XCPCCF_FPATH_CAN2",
+"XCPCCF_FPATH_CAN3",
+"XCPCCF_FPATH_CAN4",
+"XCPCCF_FPATH_CAN5",
+"XCPCCF_FPATH_CAN6",
+"XCPCCF_FPATH_CAN7",
+"XCPCCF_FPATH_CAN8",
+"XCPCCF_CLITYPE_CAN1",
+"XCPCCF_CLITYPE_CAN2",
+"XCPCCF_CLITYPE_CAN3",
+"XCPCCF_CLITYPE_CAN4",
+"XCPCCF_CLITYPE_CAN5",
+"XCPCCF_CLITYPE_CAN6",
+"XCPCCF_CLITYPE_CAN7",
+"XCPCCF_CLITYPE_CAN8",
+"CAN_XCP_TYPE",
+"CAN_XCPCCP_ENABLE",
+"CAN_XCPCCP_CLIENT",
+"CAN1_MODE",
+"CAN2_MODE",
+"CAN3_MODE",
+"CAN4_MODE",
+"CAN5_MODE",
+"CAN6_MODE",
+"CAN7_MODE",
+"CAN8_MODE",
+"CAN9_MODE",
+"CAN10_MODE",
+"CAN11_MODE",
+"CAN12_MODE",
+"CAN13_MODE",
+"CAN14_MODE",
+"CAN15_MODE",
+"CAN16_MODE",
+"CAN17_MODE",
+"CAN18_MODE",
+"TEST_CAN_ENABLE",
+"AT_NET_TYPE",
+"AT_NET_APN",
+"FTP_ADDR",
+"FTP_ADDR_AUX",
+"FTP_UPADDR",
+"FTP_AUTO_UP_FILE",
+"FTP_AUTO_UP_FILE_TYPE",
+"FTP_HTTP_URL",
+"FTP_CANTM_MODE_YIQI",
+"HTTP_AUTH_URL",
+"WEIHE_SIGN",
+"ORGCODE",
+"MQTT_HOST",
+"MQTT_PORT",
+"MQTT_SWITCH",
+"VIDEO_SWITCH",
+"DEV_SSD_BEEP_ALERT",
+"DEV_LOCAL_IP",
+"GBOX_IP",
+"DEV_DHCP_ENABLE",
+"DEV_NET_MTU",
+"WIFI_MODE",
+"WIFI_2_4G_5G",
+"WIFI_NAME",
+"WIFI_PASSWD",
+"PM_BATTERY_WARN",
+"VIDEO_SAVE_TM",
+"VIDEO_TRIGER_BEFOER",
+"VIDEO_TRIGER_AFTER",
+"UDS_ROUTINE",
+"UPGRADE_CAN_PORT",
+"PING_TIME_OUT_REBOOT",
+"MCU_WATCH_DOG",
+);
+  function get_cfg_value(url){
+var xmlhttp;
+if (window.XMLHttpRequest){
+xmlhttp=new XMLHttpRequest();    
+}
+else{
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+ xmlhttp.onreadystatechange=function(){
+    if (xmlhttp.readyState==4 && xmlhttp.status==200){
+if(url=="/index.cgi?MPU_VER")
+document.getElementById("1").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?RUN_TIME")
+document.getElementById("2").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MPURECOUNT")
+document.getElementById("3").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MCU_VER")
+document.getElementById("4").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MCU_BTL_VER")
+document.getElementById("5").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?VIDEO_VER")
+document.getElementById("6").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?POWER_VOLT")
+document.getElementById("7").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?SD_CARD")
+document.getElementById("8").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?SIGNAL_4G")
+document.getElementById("9").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?SIM_STATUS")
+document.getElementById("10").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?ICCID")
+document.getElementById("11").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?IEME")
+document.getElementById("12").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?OTA_SN")
+document.getElementById("13").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?OTA_ADDR")
+document.getElementById("14").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?OTA_PORT")
+document.getElementById("15").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_TPYE")
+document.getElementById("16").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_HZ")
+document.getElementById("17").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_DISTANCE")
+document.getElementById("18").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_STATE")
+document.getElementById("19").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_LON")
+document.getElementById("20").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_LAT")
+document.getElementById("21").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_DGPS_STA_SN")
+document.getElementById("22").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_DGPS_IS_STA")
+document.getElementById("23").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_QX_KEY")
+document.getElementById("24").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_QX_SECRET")
+document.getElementById("25").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_QX_DEV_ID")
+document.getElementById("26").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GPS_QX_DEV_TYPE")
+document.getElementById("27").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_TDMS_ENABLE")
+document.getElementById("28").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_TDMS_HZ")
+document.getElementById("29").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_AUTH_KEY")
+document.getElementById("30").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_TRIGER_BEFORE")
+document.getElementById("31").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_TRIGER_AFTER")
+document.getElementById("32").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_VIDEO_TRIGER_INX")
+document.getElementById("33").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_STOR_AUTO")
+document.getElementById("34").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_INX_HZ")
+document.getElementById("35").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_CAN_LOG")
+document.getElementById("36").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_GPS_LOG")
+document.getElementById("37").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_INX_ENABLE")
+document.getElementById("38").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_MDF_ENABLE")
+document.getElementById("39").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_ASC_CAN_LOG")
+document.getElementById("40").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_ASC_GPS_LOG")
+document.getElementById("41").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_ASC_LIN_LOG")
+document.getElementById("42").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_MF4_ENABLE")
+document.getElementById("43").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_PCAP_ENABLE")
+document.getElementById("44").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_FILE_MAX_SIZE")
+document.getElementById("45").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_MEDIUM_FSYS")
+document.getElementById("46").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_FILE_REB_TM")
+document.getElementById("47").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DSU_RATIO_INSSD")
+document.getElementById("48").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN_SLEEP_TM")
+document.getElementById("49").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN_SLEEP_ENABLE")
+document.getElementById("50").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DBC_PATH")
+document.getElementById("51").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCF_PATH")
+document.getElementById("52").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CCF_PATH")
+document.getElementById("53").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?IDC_PATH")
+document.getElementById("54").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?LDF_PATH")
+document.getElementById("55").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MULTI_XCF_INCAN")
+document.getElementById("56").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN1")
+document.getElementById("57").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN2")
+document.getElementById("58").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN3")
+document.getElementById("59").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN4")
+document.getElementById("60").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN5")
+document.getElementById("61").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN6")
+document.getElementById("62").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN7")
+document.getElementById("63").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_FPATH_CAN8")
+document.getElementById("64").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN1")
+document.getElementById("65").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN2")
+document.getElementById("66").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN3")
+document.getElementById("67").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN4")
+document.getElementById("68").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN5")
+document.getElementById("69").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN6")
+document.getElementById("70").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN7")
+document.getElementById("71").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?XCPCCF_CLITYPE_CAN8")
+document.getElementById("72").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN_XCP_TYPE")
+document.getElementById("73").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN_XCPCCP_ENABLE")
+document.getElementById("74").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN_XCPCCP_CLIENT")
+document.getElementById("75").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN1_MODE")
+document.getElementById("76").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN2_MODE")
+document.getElementById("77").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN3_MODE")
+document.getElementById("78").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN4_MODE")
+document.getElementById("79").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN5_MODE")
+document.getElementById("80").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN6_MODE")
+document.getElementById("81").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN7_MODE")
+document.getElementById("82").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN8_MODE")
+document.getElementById("83").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN9_MODE")
+document.getElementById("84").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN10_MODE")
+document.getElementById("85").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN11_MODE")
+document.getElementById("86").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN12_MODE")
+document.getElementById("87").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN13_MODE")
+document.getElementById("88").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN14_MODE")
+document.getElementById("89").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN15_MODE")
+document.getElementById("90").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN16_MODE")
+document.getElementById("91").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN17_MODE")
+document.getElementById("92").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?CAN18_MODE")
+document.getElementById("93").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?TEST_CAN_ENABLE")
+document.getElementById("94").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?AT_NET_TYPE")
+document.getElementById("95").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?AT_NET_APN")
+document.getElementById("96").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_ADDR")
+document.getElementById("99").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_ADDR_AUX")
+document.getElementById("100").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_UPADDR")
+document.getElementById("101").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_AUTO_UP_FILE")
+document.getElementById("102").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_AUTO_UP_FILE_TYPE")
+document.getElementById("103").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_HTTP_URL")
+document.getElementById("104").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?FTP_CANTM_MODE_YIQI")
+document.getElementById("105").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?HTTP_AUTH_URL")
+document.getElementById("106").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?WEIHE_SIGN")
+document.getElementById("107").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?ORGCODE")
+document.getElementById("108").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MQTT_HOST")
+document.getElementById("109").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MQTT_PORT")
+document.getElementById("110").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MQTT_SWITCH")
+document.getElementById("111").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?VIDEO_SWITCH")
+document.getElementById("112").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DEV_SSD_BEEP_ALERT")
+document.getElementById("113").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DEV_LOCAL_IP")
+document.getElementById("114").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?GBOX_IP")
+document.getElementById("115").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DEV_DHCP_ENABLE")
+document.getElementById("116").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?DEV_NET_MTU")
+document.getElementById("117").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?WIFI_MODE")
+document.getElementById("118").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?WIFI_2_4G_5G")
+document.getElementById("119").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?WIFI_NAME")
+document.getElementById("120").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?WIFI_PASSWD")
+document.getElementById("121").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?PM_BATTERY_WARN")
+document.getElementById("122").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?VIDEO_SAVE_TM")
+document.getElementById("123").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?VIDEO_TRIGER_BEFOER")
+document.getElementById("124").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?VIDEO_TRIGER_AFTER")
+document.getElementById("125").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?UDS_ROUTINE")
+document.getElementById("126").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?UPGRADE_CAN_PORT")
+document.getElementById("127").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?PING_TIME_OUT_REBOOT")
+document.getElementById("128").innerHTML=xmlhttp.responseText;
+else if(url=="/index.cgi?MCU_WATCH_DOG")
+document.getElementById("129").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("GET",url,true);
+xmlhttp.send();
+}
+
+function get_param_value() {
+var i;
+var text = null;
+for(i=0;i<list.length;i++){
+        text = "/index.cgi?" + list[i];
+get_cfg_value(text);
+}
+}
+
+function start(){
+window.setInterval("get_param_value()",1000)
+        }
+</script>
+<style>
+</style>
+</head>
+<body onload="start();">
+<h1>终端参数查询</h1>
+<table frame="box" width="100%%">
+        <tr>
+<th align="left" width="20%%">参数名称</th>
+<th align="left" width="60%%">查询结果</th>
+        </tr>
+<tr>
+<td><p><b> MPU版本:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="1"></span></td>
+</tr>
+<tr>
+<td><p><b> 运行时间:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="2"></span></td>
+</tr>
+<tr>
+<td><p><b> MPU重启计数:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="3"></span></td>
+</tr>
+<tr>
+<td><p><b> MCU版本:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="4"></span></td>
+</tr>
+<tr>
+<td><p><b> MCU_BTL版本:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="5"></span></td>
+</tr>
+<tr>
+<td><p><b> VIDEO版本:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="6"></span></td>
+</tr>
+<tr>
+<td><p><b> 供电电压:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="7"></span></td>
+</tr>
+<tr>
+<td><p><b> SD卡状态:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="8"></span></td>
+</tr>
+<tr>
+<td><p><b> 4G信号:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="9"></span></td>
+</tr>
+<tr>
+<td><p><b> SIM状态:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="10"></span></td>
+</tr>
+<tr>
+<td><p><b> ICCID:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="11"></span></td>
+</tr>
+<tr>
+<td><p><b> IEME:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="12"></span></td>
+</tr>
+<tr>
+<td><p><b> 终端号:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="13"></span></td>
+</tr>
+<tr>
+<td><p><b> 平台地址:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="14"></span></td>
+</tr>
+<tr>
+<td><p><b> 平台端口:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="15"></span></td>
+</tr>
+<tr>
+<td><p><b> GPS类型:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="16"></span></td>
+</tr>
+<tr>
+<td><p><b> GPS_HZ:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="17"></span></td>
+</tr>
+<tr>
+<td><p><b> 里程:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="18"></span></td>
+</tr>
+<tr>
+<td><p><b> GPS状态:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="19"></span></td>
+</tr>
+<tr>
+<td><p><b> 经度:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="20"></span></td>
+</tr>
+<tr>
+<td><p><b> 纬度:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="21"></span></td>
+</tr>
+<tr>
+<td><p><b> DGPS_SN:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="22"></span></td>
+</tr>
+<tr>
+<td><p><b> DGPS_IS_STA:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="23"></span></td>
+</tr>
+<tr>
+<td><p><b> 千寻密钥:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="24"></span></td>
+</tr>
+<tr>
+<td><p><b> 千寻SECRET:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="25"></span></td>
+</tr>
+<tr>
+<td><p><b> 千寻设备ID:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="26"></span></td>
+</tr>
+<tr>
+<td><p><b> 千寻设备类型:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="27"></span></td>
+</tr>
+<tr>
+<td><p><b> TDMS使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="28"></span></td>
+</tr>
+<tr>
+<td><p><b> TDMS_HZ:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="29"></span></td>
+</tr>
+<tr>
+<td><p><b> INTEST文件授权:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="30"></span></td>
+</tr>
+<tr>
+<td><p><b> 触发前:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="31"></span></td>
+</tr>
+<tr>
+<td><p><b> 触发后:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="32"></span></td>
+</tr>
+<tr>
+<td><p><b> video触发inx:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="33"></span></td>
+</tr>
+<tr>
+<td><p><b> STOR_AUTO:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="34"></span></td>
+</tr>
+<tr>
+<td><p><b> INX存储频率:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="35"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN数据LOG存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="36"></span></td>
+</tr>
+<tr>
+<td><p><b> GPS数据LOG存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="37"></span></td>
+</tr>
+<tr>
+<td><p><b> INX存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="38"></span></td>
+</tr>
+<tr>
+<td><p><b> MDF存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="39"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN数据ASC存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="40"></span></td>
+</tr>
+<tr>
+<td><p><b> GPS数据ASC存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="41"></span></td>
+</tr>
+<tr>
+<td><p><b> LIN数据ASC存储:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="42"></span></td>
+</tr>
+<tr>
+<td><p><b> MF4格式存储使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="43"></span></td>
+</tr>
+<tr>
+<td><p><b> PCAP存储使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="44"></span></td>
+</tr>
+<tr>
+<td><p><b> 单文件最大存储(MB):</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="45"></span></td>
+</tr>
+<tr>
+<td><p><b> 存储介质:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="46"></span></td>
+</tr>
+<tr>
+<td><p><b> 单文件最长存储(S):</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="47"></span></td>
+</tr>
+<tr>
+<td><p><b> 磁盘存储最大占用率:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="48"></span></td>
+</tr>
+<tr>
+<td><p><b> 休眠时间(S):</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="49"></span></td>
+</tr>
+<tr>
+<td><p><b> 休眠使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="50"></span></td>
+</tr>
+<tr>
+<td><p><b> DBC文件路径:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="51"></span></td>
+</tr>
+<tr>
+<td><p><b> XCF文件路径:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="52"></span></td>
+</tr>
+<tr>
+<td><p><b> CCF文件路径:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="53"></span></td>
+</tr>
+<tr>
+<td><p><b> IDC文件路径:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="54"></span></td>
+</tr>
+<tr>
+<td><p><b> LDF文件路径:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="55"></span></td>
+</tr>
+<tr>
+<td><p><b> MULTI_XCF_INCAN:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="56"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN1:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="57"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN2:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="58"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN3:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="59"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN4:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="60"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN5:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="61"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN6:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="62"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN5:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="63"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_FPATH_CAN6:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="64"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN1:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="65"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN2:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="66"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN3:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="67"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN4:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="68"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN5:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="69"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN6:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="70"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN7:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="71"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCF_CLITYPE_CAN8:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="72"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN_XCP_TYPE:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="73"></span></td>
+</tr>
+<tr>
+<td><p><b> XCPCCP使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="74"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN_XCPCCP_CLIENT:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="75"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN1模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="76"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN2模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="77"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN3模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="78"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN4模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="79"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN5模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="80"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN6模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="81"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN7模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="82"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN8模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="83"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN9模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="84"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN10模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="85"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN11模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="86"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN12模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="87"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN13模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="88"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN14模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="89"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN15模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="90"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN16模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="91"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN17模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="92"></span></td>
+</tr>
+<tr>
+<td><p><b> CAN18模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="93"></span></td>
+</tr>
+<tr>
+<td><p><b> 183CAN测试:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="94"></span></td>
+</tr>
+<tr>
+<td><p><b> AT_NET_TYPE:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="95"></span></td>
+</tr>
+<tr>
+<td><p><b> AT_NET_APN:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="96"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP地址:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="99"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP_ADDR_AUX:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="100"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP_UPADDR:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="101"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP上传CAN数据文件:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="102"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP上传CAN数据类型:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="103"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP_HTTP_URL:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="104"></span></td>
+</tr>
+<tr>
+<td><p><b> FTP_CANTM_MODE_YIQI:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="105"></span></td>
+</tr>
+<tr>
+<td><p><b> HTTP_AUTH_URL:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="106"></span></td>
+</tr>
+<tr>
+<td><p><b> 蔚赫SIGN:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="107"></span></td>
+</tr>
+<tr>
+<td><p><b> ORGCODE:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="108"></span></td>
+</tr>
+<tr>
+<td><p><b> MQTT平台:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="109"></span></td>
+</tr>
+<tr>
+<td><p><b> MQTT端口:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="110"></span></td>
+</tr>
+<tr>
+<td><p><b> MQTT开关:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="111"></span></td>
+</tr>
+<tr>
+<td><p><b> VIDEO开关:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="112"></span></td>
+</tr>
+<tr>
+<td><p><b> 硬盘报警:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="113"></span></td>
+</tr>
+<tr>
+<td><p><b> 设备本地IP:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="114"></span></td>
+</tr>
+<tr>
+<td><p><b> GBOX设备IP:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="115"></span></td>
+</tr>
+<tr>
+<td><p><b> DHCP使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="116"></span></td>
+</tr>
+<tr>
+<td><p><b> 网络最大传输单元:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="117"></span></td>
+</tr>
+<tr>
+<td><p><b> WIFI模式:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="118"></span></td>
+</tr>
+<tr>
+<td><p><b> 2.4G/5G切换:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="119"></span></td>
+</tr>
+<tr>
+<td><p><b> WIFI用户名:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="120"></span></td>
+</tr>
+<tr>
+<td><p><b> WIFI密码:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="121"></span></td>
+</tr>
+<tr>
+<td><p><b> PM_BATTERY_WARN:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="122"></span></td>
+</tr>
+<tr>
+<td><p><b> VIDEO存储时间:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="123"></span></td>
+</tr>
+<tr>
+<td><p><b> VIDEO触发前:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="124"></span></td>
+</tr>
+<tr>
+<td><p><b> VIDEO触发后:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="125"></span></td>
+</tr>
+<tr>
+<td><p><b> UDS:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="126"></span></td>
+</tr>
+<tr>
+<td><p><b> 升级CAN节点:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="127"></span></td>
+</tr>
+<tr>
+<td><p><b> 断网重连使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="128"></span></td>
+</tr>
+<tr>
+<td><p><b> MCU看门狗使能:</b><span id="p_transport tcp -stimeout 3000000"></span></p></td>
+<td><span id="129"></span></td>
+</tr>
+</table>
+</body>
+</html>

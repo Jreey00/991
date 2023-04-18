@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+    <script script type="text/javascript">
+        function upload()
+        {
+            var fReader = new FileReader();
+            fReader.onload=function(e){
+            //读取完成
+            xhreq.send(fReader.result);
+            }
+            fReader.readAsArrayBuffer(uploadFile.files[0]);
+        }
+        function download()
+        {
+
+        }
+	</script>
+<body>
+    <h1>上传文件</h1>
+    <form name="form1" action="/upload1" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <br />
+        <input type="submit" name="submit" value="上传至/opt/intest" onclick="">
+    </form>
+    <form name="form2" action="/upload2" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <br />
+        <input type="submit" name="submit" value="上传至/opt/intest/usr_data/config" onclick="">
+    </form>
+
+    <form name="form3" action="/intest" method="GET">
+        <intput type="file" name="download" multiple="true">
+        <button type="submit">/opt/intest</button>
+    </form>
+    
+    <form name="form4" action="/sda1" method="GET">
+        <intput type="file" name="download" multiple="true">
+        <button type="submit">/run</button>
+    </form>
+
+</body>
+</html>

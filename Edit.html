@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-control" content="no-cache">
+	<meta http-equiv="Cache" content="no-cache">
+<meta charset="UTF-8">
+	<script type="text/javascript">
+	
+	
+	var setlist=new Array(
+	"setcan_sleep_tm",
+	"setcan_sleep_able",
+	"setota_url_addr",
+	"setota_url_port",
+	"setota_data_intv",
+	"setota_head_intv",
+	"setdsu_inx_hz",
+	"setdsu_medium_fsys",
+	"setdsu_file_reb_tm",
+	"setdsu_file_max_size",
+	"setdsu_inx_enable",
+	"setdsu_mdf_enable",
+	"setdsu_mf4_enable",
+	"setdsu_can_log",
+	"setdsu_asc_can_log",
+	"setdsu_pcap_enable",
+	"setftp_addr",
+	"setftp_autoupfile",
+	"setftp_autoupfileType",
+	"setcan_dbc_path",
+	"setcan_xcf_path",
+	"setcan_ccf_path",
+	"setcan_idc_path",
+	"setlin_ldf_file",
+	"setdev_SSD_beep_alert",
+	"uds_routine",
+	"upgrade_can_port"
+	);
+	
+	var requestlist=new Array(
+	"/index.cgi?can_sleep_tm_btn",
+	"/index.cgi?can_sleep_able_btn",
+	"/index.cgi?ota_url_addr_btn",
+	"/index.cgi?ota_url_port_btn",
+	"/index.cgi?ota_data_intv_btn",
+	"/index.cgi?ota_head_intv_btn",
+	"/index.cgi?dsu_inx_hz_btn",
+	"/index.cgi?dsu_medium_fsys_btn",
+	"/index.cgi?dsu_file_reb_tm_btn",
+	"/index.cgi?dsu_file_max_size_btn",
+	"/index.cgi?dsu_inx_enable_btn",
+	"/index.cgi?dsu_mdf_enable_btn",
+	"/index.cgi?dsu_mf4_enable_btn",
+	"/index.cgi?dsu_can_log_btn",
+	"/index.cgi?dsu_asc_can_log_btn",
+	"/index.cgi?dsu_pcap_btn",
+	"/index.cgi?ftp_addr_btn",
+	"/index.cgi?ftp_autoupfile_btn",
+	"/index.cgi?ftp_autoupfile_type_btn",
+	"/index.cgi?can_dbc_path_btn",
+	"/index.cgi?can_xcf_path_btn",
+	"/index.cgi?can_ccf_path_btn",
+	"/index.cgi?can_idc_path_btn",
+	"/index.cgi?lin_ldf_file_btn",
+	"/index.cgi?dev_SSD_beep_alert_btn",
+	"/index.cgi?uds_routine_btn",
+	"/index.cgi?upgrade_can_port_btn",
+	);
+	function judgeRadioClicked(name)
+	{
+
+		var radios = document.getElementsByName(name);
+		for(var i=0;i<radios.length;i++)
+		{ 
+			if(radios[i].checked)
+			{
+				alert(radios[i].value);
+				return radios[i].value;
+			} 
+		} 
+	 }
+
+	
+    function get_cfg_value(url)
+    {
+        var xmlhttp;
+		var buf,cmd,i; 
+        if (window.XMLHttpRequest)
+        {
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+		//alert(url);
+		switch(url)
+		{
+			case "/index.cgi?can_sleep_tm_btn":
+				i = 0;
+				buf = document.getElementById("can_sleep_tm_text").value;
+				alert(document.getElementById("can_sleep_tm_text").value);
+				break;
+			case "/index.cgi?can_sleep_able_btn":
+				i = 1;
+				buf = judgeRadioClicked("can_sleep_able");
+				//buf = document.getElementsByName("can_sleep_able").checked;
+				break;
+			case "/index.cgi?ota_url_addr_btn":
+				i = 2;
+				buf = document.getElementById("ota_url_addr_text").value;
+        alert(document.getElementById("ota_url_addr_text").value);
+				break;
+			case "/index.cgi?ota_url_port_btn":
+				i = 3;
+				buf = document.getElementById("ota_url_port_text").value;
+        alert(document.getElementById("ota_url_port_text").value);
+				break;
+			case "/index.cgi?ota_data_intv_btn":
+				i = 4;
+				buf = document.getElementById("ota_data_intv_text").value;
+        alert(document.getElementById("ota_data_intv_text").value);
+				break;
+			case "/index.cgi?ota_head_intv_btn":
+				i = 5;
+				buf = document.getElementById("ota_head_intv_text").value;
+        alert(document.getElementById("ota_head_intv_text").value);
+				break;
+			case "/index.cgi?dsu_inx_hz_btn":
+				i = 6;
+				buf = document.getElementById("dsu_inx_hz_text").value;
+        alert(document.getElementById("dsu_inx_hz_text").value);
+				break;
+			case "/index.cgi?dsu_medium_fsys_btn":
+				i = 7;
+				buf = document.getElementById("dsu_medium_fsys_text").value;
+        alert(document.getElementById("dsu_medium_fsys_text").value);
+				break;
+			case "/index.cgi?dsu_file_reb_tm_btn":
+				i = 8;
+				buf = document.getElementById("dsu_file_reb_tm_text").value;
+        alert(document.getElementById("dsu_file_reb_tm_text").value);
+				break;
+			case "/index.cgi?dsu_file_max_size_btn":
+				i = 9;
+				buf = document.getElementById("dsu_file_max_size_text").value;
+        alert(document.getElementById("dsu_file_max_size_text").value);
+				break;
+			case "/index.cgi?dsu_inx_enable_btn":
+				i = 10;
+				buf = judgeRadioClicked("dsu_inx_enable");
+				break;
+			case "/index.cgi?dsu_mdf_enable_btn":
+				i = 11;
+				buf = judgeRadioClicked("dsu_mdf_enable");
+				break;
+			case "/index.cgi?dsu_mf4_enable_btn":
+				i = 12;
+				buf = judgeRadioClicked("dsu_mf4_enable");
+				break;
+			case "/index.cgi?dsu_can_log_btn":
+				i = 13;
+				buf = judgeRadioClicked("dsu_can_log");
+				break;
+			case "/index.cgi?dsu_asc_can_log_btn":
+				i = 14;
+				buf = judgeRadioClicked("dsu_asc_can_log");
+				break;
+			case "/index.cgi?dsu_pcap_btn":
+				i = 15;
+				buf = judgeRadioClicked("dsu_pcap_enable");
+				break;
+			case "/index.cgi?ftp_addr_btn":
+				i = 16;
+				buf = document.getElementById("ftp_addr_text").value;
+        alert(document.getElementById("ftp_addr_text").value);
+				break;
+			case "/index.cgi?ftp_autoupfile_btn":
+				i = 17;
+				buf = judgeRadioClicked("ftp_autoupfile");
+				break;
+			case "/index.cgi?ftp_autoupfile_type_btn":
+				i = 18;
+				buf = judgeRadioClicked("ftp_autoupfiletype");
+				break;
+			case "/index.cgi?can_dbc_path_btn":
+				i = 19;
+				buf = document.getElementById("can_dbc_path_text").value;
+        alert(document.getElementById("can_dbc_path_text").value);
+				break;
+			case "/index.cgi?can_xcf_path_btn":
+				i = 20;
+				buf = document.getElementById("can_xcf_path_text").value;
+        alert(document.getElementById("can_xcf_path_text").value);
+				break;
+			case "/index.cgi?can_ccf_path_btn":
+				i = 21;
+				buf = document.getElementById("can_ccf_path_text").value;
+        alert(document.getElementById("can_ccf_path_text").value);
+				break;
+			case "/index.cgi?can_idc_path_btn":
+				i = 22;
+				buf = document.getElementById("can_idc_path_text").value;
+        alert(document.getElementById("can_idc_path_text").value);
+				break;
+			case "/index.cgi?lin_ldf_file_btn":
+				i = 23;
+				buf = document.getElementById("lin_ldf_file_text").value;
+        alert(document.getElementById("lin_ldf_file_text").value);
+				break;
+			case "/index.cgi?dev_SSD_beep_alert_btn":
+				i = 24;
+				buf = judgeRadioClicked("dev_SSD_beep_alert");
+				break;
+			case "/index.cgi?uds_routine_btn":
+				i = 25;
+				buf = judgeRadioClicked("uds_routine");
+				break;
+			case "/index.cgi?upgrade_can_port_btn":
+				i = 26;
+				buf = judgeRadioClicked("upgrade_can_port");
+				break;
+			default :
+			alert("error");
+			break
+		}
+        cmd = setlist[i] + " " + buf;
+		xmlhttp.open("POST",url,true);
+        xmlhttp.send(cmd);
+    }
+
+	function Perform_all() {
+		var i;
+		var text = null;
+		for(i=0;i<requestlist.length;i++){
+			text = requestlist[i];
+			get_cfg_value(text);
+			text = null;
+		}
+	}
+	
+	</script>
+    <style>
+		html, body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+        #header {
+            text-align:center;
+            padding:5px;
+        }
+
+        #down {
+            background-color:yellowgreen;
+            color:white;
+            text-align:center;
+            height:300px;
+            width:300px;
+            float:right;
+            border: 2px;
+            border-color: #000000;
+            border-style: dotted;
+            padding:5px;
+        }
+		tr{
+			text-align: left;
+		}
+		.set_text{
+			width: 100%;
+			height: 30px;
+		}
+		.radio1{
+			/* margin-left: 30px;	 */
+			
+		}
+		.radio2{
+			margin-left: 20px;	
+			
+		}
+		.radio3{ 
+			margin-left: 20px;
+		}
+    .radio4{
+      margin-left: 20px;
+    }
+    .radio5{
+      margin-left: 20px;
+    }
+    .radio6{
+      margin-left: 20px;
+    }
+    .radio7{
+      margin-left: 20px;
+    }
+		.setbtn{
+			width: 50px;
+			margin-left: 38%;
+			color: #06f;
+			border-color: #06f;
+			display: inline-block;
+			font-size: 14px;
+			line-height: 30px;
+			text-align: center;
+			cursor: pointer;
+			background: none;
+			border: 1px solid;
+			border-radius: 3px;
+		}
+    </style>
+
+</head>
+<body>
+	<div id="header">
+		<h1> 参数配置 </h1>
+		<table frame="box" width="100%" >
+		  <tr> 
+		    <th align="left" width="20%">参数名称</th>
+		    <th align="left" width="60%">设置选项</th>
+			<th align="center" width="20%">设置</th>
+		  </tr>
+
+		  <tr>
+		    <td><p><b> 休眠时间      :</b><span id="can_sleep_tm_set"></span></p></td>
+			
+				<td><input type="text" id="can_sleep_tm_text" class="set_text" placeholder="填入can_sleep_tm"/></td>
+				<td>
+				<input type="submit" id="can_sleep_tm_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?can_sleep_tm_btn')" />
+				</td>
+			
+			
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> 休眠开关     :</b><span id="can_sleep_able_set"></span></p></td>
+			<td>
+			<p>
+				<input type="radio" class="radio1" name="can_sleep_able" id="can_sleep_able_open" value="1"/ >开
+				<input type="radio" class="radio2" name="can_sleep_able" id="can_sleep_able_close" value="0"/ >关
+			</p>
+			</td>
+			<td>
+			<input type="submit" id="can_sleep_able_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?can_sleep_able_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> 平台地址       :</b><span id="ota_url_addr_set"></span></p></td>
+			<td><input type="text" id="ota_url_addr_text" class="set_text" placeholder="填入ota_url_addr"/></td>
+			<td><input type="submit" id="ota_url_addr_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ota_url_addr_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> 平台端口号       :</b><span id="ota_url_port_set"></span></p></td>
+			<td><input type="text" id="ota_url_port_text" class="set_text" placeholder="填入ota_url_port"/></td>
+			<td><input type="submit" id="ota_url_port_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ota_url_port_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> ota_data_intv      :</b><span id="ota_data_intv_set"></span></p></td>
+		  			<td><input type="text" id="ota_data_intv_text" class="set_text" placeholder="填入ota_data_intv"/></td>
+		  			<td><input type="submit" id="ota_data_intv_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ota_data_intv_btn')" />
+		  			</td>
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> ota_head_intv      :</b><span id="ota_head_intv_set"></span></p></td>
+			<td><input type="text" id="ota_head_intv_text" class="set_text" placeholder="填入ota_head_intv"/></td>
+			<td><input type="submit" id="ota_head_intv_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ota_head_intv_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> inx存储频率         :</b><span id="dsu_inx_hz_set"></span></p></td>
+			<td><input type="text" id="dsu_inx_hz_text" class="set_text" placeholder="填入dsu_inx_hz"/></td>
+			<td><input type="submit" id="dsu_inx_hz_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_inx_hz_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+		    <td><p><b> 存储介质    :</b><span id="dsu_medium_fsys_set"></span></p></td>
+			<td><input type="text" id="dsu_medium_fsys_text" class="set_text" placeholder="0:EMMC 1:SD卡 2:硬盘"/></td>
+			<td><input type="submit" id="dsu_medium_fsys_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_medium_fsys_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+			<td><p><b> 文件最大存储时间    :</b><span id="dsu_file_reb_tm_set"></span></p></td>
+			<td><input type="text" id="dsu_file_reb_tm_text" class="set_text" placeholder="单位(S)"/></td>
+			<td><input type="submit" id="dsu_file_reb_tm_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_file_reb_tm_btn')" />
+			</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> 文件最大存储  :</b><span id="dsu_file_max_size_set"></span></p></td>
+				<td><input type="text" id="dsu_file_max_size_text" class="set_text" placeholder="单位(MB)"/></td>
+				<td><input type="submit" id="dsu_file_max_size_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_file_max_size_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> inx存储     :</b><span id="dsu_inx_enable_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dsu_inx_enable" id="dsu_inx_enable_open" value="1"/ >开
+					<input type="radio" class="radio2" name="dsu_inx_enable" id="dsu_inx_enable_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="dsu_inx_enable_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_inx_enable_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> mdf存储     :</b><span id="dsu_mdf_enable_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dsu_mdf_enable" id="dsu_mdf_enable_open" value="1"/ >开
+					<input type="radio" class="radio2" name="dsu_mdf_enable" id="dsu_mdf_enable_close" value="0"/ >关
+				</p>
+				</td>
+				</td>
+				<td><input type="submit" id="dsu_mdf_enable_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_mdf_enable_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> mf4存储     :</b><span id="dsu_mf4_enable_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dsu_mf4_enable" id="dsu_mf4_enable_open" value="1"/ >开
+					<input type="radio" class="radio2" name="dsu_mf4_enable" id="dsu_mf4_enable_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="dsu_mf4_enable_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_mf4_enable_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> log存储       :</b><span id="dsu_can_log_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dsu_can_log" id="dsu_can_log_open" value="1"/ >开
+					<input type="radio" class="radio2" name="dsu_can_log" id="dsu_can_log_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="dsu_can_log_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_can_log_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> asc存储    :</b><span id="dsu_asc_can_log_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dsu_asc_can_log" id="dsu_asc_can_log_open" value="1"/ >开
+					<input type="radio" class="radio2" name="dsu_asc_can_log" id="dsu_asc_can_log_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="dsu_asc_can_log_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_asc_can_log_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> pcap存储           :</b><span id="dsu_pcap_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dsu_pcap_enable" id="dsu_pcap_open"/ value="1">开
+					<input type="radio" class="radio2" name="dsu_pcap_enable" id="dsu_pcap_close" value="0"/ >关
+				</p>
+				</td>
+				</td>
+				<td><input type="submit" id="dsu_pcap_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?dsu_pcap_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> FTP地址           :</b><span id="ftp_addr_set"></span></p></td>
+				<td><input type="text" id="ftp_addr_text" class="set_text" placeholder="填入ftp_addr"/></td>
+				<td><input type="submit" id="ftp_addr_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ftp_addr_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> 自动上传FTP     :</b><span id="ftp_autoupfile_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="ftp_autoupfile" id="ftp_autoupfile_open" value="1"/ >开
+					<input type="radio" class="radio2" name="ftp_autoupfile" id="ftp_autoupfile_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="ftp_autoupfile_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ftp_autoupfile_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> 上传FTP文件类型      :</b><span id="ftp_autoupfileType_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="ftp_autoupfileType" id="ftp_autoupfileType_inx"/ >inx
+					<input type="radio" class="radio3" name="ftp_autoupfileType" id="ftp_autoupfileType_mdf"/ >mdf
+					<input type="radio" class="radio3" name="ftp_autoupfileType" id="ftp_autoupfileType_mf4"/ >mf4
+					<input type="radio" class="radio3" name="ftp_autoupfileType" id="ftp_autoupfileType_log"/ >log
+					<input type="radio" class="radio3" name="ftp_autoupfileType" id="ftp_autoupfileType_asc"/ >asc
+					<input type="radio" class="radio3" name="ftp_autoupfileType" id="ftp_autoupfileType_pcap"/ >pcap
+				</p>
+				</td>
+				</td>
+				<td><input type="submit" id="ftp_autoupfile_btn" class="setbtn" value="设置" onclick="get_cfg_value('/index.cgi?ftp_autoupfile_btn')" />
+				</td>
+			
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> DBC文件       :</b><span id="can_dbc_path_set"></span></p></td>
+				<td><input type="text" id="can_dbc_path_text" class="set_text" placeholder="填入DBC文件名"/></td>
+				<td><input type="submit" id="can_dbc_path_btn" class="setbtn" value="设置" 
+				onclick="get_cfg_value('/index.cgi?can_dbc_path_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> XCF文件       :</b><span id="can_xcf_path_set"></span></p></td>
+				<td><input type="text" id="can_xcf_path_text" class="set_text" placeholder="填入XCF文件名"/></td>
+				<td><input type="submit" id="can_xcf_path_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?can_xcf_path_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> CCF文件       :</b><span id="can_ccf_path_set"></span></p></td>
+				<td><input type="text" id="can_ccf_path_text" class="set_text" placeholder="填入CCF文件名"/></td>
+				<td><input type="submit" id="can_ccf_path_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?can_ccf_path_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> IDC文件       :</b><span id="can_idc_path_set"></span></p></td>
+				<td><input type="text" id="can_idc_path_text" class="set_text" placeholder="填入IDC文件名"/></td>
+				<td><input type="submit" id="can_idc_path_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?can_idc_path_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> LDF文件       :</b><span id="lin_ldf_file_set"></span></p></td>
+				<td><input type="text" id="lin_ldf_file_text" class="set_text" placeholder="填入LDF文件名"/></td>
+				<td><input type="submit" id="lin_ldf_file_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?lin_ldf_file_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> 硬盘报警 :</b><span id="dev_SSD_beep_alert_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="dev_SSD_beep_alert" id="dev_SSD_beep_alert_open" value="1"/  >开
+					<input type="radio" class="radio2" name="dev_SSD_beep_alert" id="dev_SSD_beep_alert_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="dev_SSD_beep_alert_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?dev_SSD_beep_alert_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> UDS        :</b><span id="uds_routine_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="uds_routine" id="uds_routine_open" value="1"/ >开
+					<input type="radio" class="radio2" name="uds_routine" id="uds_routine_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="uds_routine_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?uds_routine_btn')" />
+				</td>
+		  </tr>
+		  
+		  <tr>
+		  		<td><p><b> 升级CAN节点   :</b><span id="upgrade_can_port_set"></span></p></td>
+				<td>
+				<p>
+					<input type="radio" class="radio1" name="upgrade_can_port" id="upgrade_can_port_open" value="1"/ >开
+					<input type="radio" class="radio2" name="upgrade_can_port" id="upgrade_can_port_close" value="0"/ >关
+				</p>
+				</td>
+				<td><input type="submit" id="upgrade_can_port_btn" class="setbtn" value="设置"
+				onclick="get_cfg_value('/index.cgi?upgrade_can_port_btn')" />
+				</td>
+		  </tr>
+		</table>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>车辆查询</title>
+    <link rel="stylesheet" type="text/css" href="Src/layui/layui/css/layui.css">
+    <script src="Src/requirejs/require.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+</head>
+<style>
+    .layui-btn-group .layui-btn:first-child {
+        border-left: none;
+        border-radius: 9px 0 0 9px;
+        background-color: #003B90;
+    }
+
+    .layui-btn-group .layui-btn:nth-child(2) {
+        border-left: none;
+        border-radius: 0 9px 9px 0;
+        background-color: #003B90;
+    }
+
+    .layui-table th {
+        background-color: #003B90;
+        color: #FFFFFF;
+    }
+
+    .layui-table-page {
+        text-align: center
+    }
+
+    .layui-laypage .layui-laypage-curr .layui-laypage-em {
+        background-color: #003B90;
+    }
+
+    .layui-form-select dl dd.layui-this {
+        background-color: #003B90;
+        color: #fff;
+    }
+
+    .layui-form-radio>i:hover,
+    .layui-form-radioed>i {
+        color: #003B90 !important;
+    }
+</style>
+
+<body>
+    <div class="layersearchbox">
+        <div class="layui-form">
+            <div class="layui-inline" style="width: 100px;">
+                <select id="cbCarStatus" name="isonline" lay-verify="">
+                    <option value="">全部</option>
+                    <option value="1">在线</option>
+                    <option value="0">离线</option>
+                </select>
+
+            </div>
+            <div class="layui-input-inline" style="width: 250px;">
+                <input id="txtCarNumbersID" type="text" placeholder="请输入车辆编码" class="layui-input">
+            </div>
+            <div class="layui-inline">
+                <div class="layui-btn-group">
+                    <button id="btnSearch" class="layui-btn" style="margin-right:7px;">查询</button>
+                    <button id="btnAdvancedSearch" class="layui-btn">高级查询</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 查询结果 -->
+    <table id="i_Layer_SearchResult_Table" lay-filter="i_Layer_SearchResult_Table_Filter"></table>
+    <div class="bottomBtn">
+        <button type="button" class="layui-btn" id="btnOK"
+            style="background-color: #063C91 !important;border-radius: 15px;">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
+        <button type="button" class="layui-btn" id="btnClose"
+            style="background-color: #063C91 !important;border-radius: 15px;">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+    </div>
+    <!-- 高级搜索悬浮框 -->
+    <div id="i_Layer_AdvancedSearch"></div>
+    <script src="Script/SearchCar.js?v=1.0.0"></script>
+</body>
+
+</html>

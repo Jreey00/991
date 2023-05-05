@@ -1,0 +1,285 @@
+.amap-zoom-labels {
+	display: block !important;
+}
+.amap-info-sharp {
+	border-top: 8px solid #1e3d49 !important;
+}
+
+.switch {
+	width: 57px;
+	height: 28px;
+	position: relative;
+	border: 1px solid #dfdfdf;
+	background-color: #fdfdfd;
+	box-shadow: #dfdfdf 0 0 0 0 inset;
+	border-radius: 20px;
+	background-clip: content-box;
+	display: inline-block;
+	-webkit-appearance: none;
+	user-select: none;
+	outline: none;
+}
+.switch:before {
+	content: "";
+	width: 26px;
+	height: 26px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 20px;
+	background-color: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.switch:checked {
+	border-color: #64bd63;
+	box-shadow: #64bd63 0 0 0 16px inset;
+	background-color: #64bd63;
+}
+.switch:checked:before {
+	left: 30px;
+}
+.switch.switch-anim {
+	transition: border cubic-bezier(0, 0, 0, 1) 0.4s,
+		box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
+}
+.switch.switch-anim:before {
+	transition: left 0.3s;
+}
+.switch.switch-anim:checked {
+	box-shadow: #64bd63 0 0 0 16px inset;
+	background-color: #64bd63;
+	transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
+}
+.switch.switch-anim:checked:before {
+	transition: left 0.3s;
+}
+
+.amap-menu-outer {
+	border: 0;
+	border-radius: 2px;
+	overflow: hidden;
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#ff2cbcd5', endColorStr='#ff0090cc', gradientType='0');
+	background: -webkit-linear-gradient(#2cbcd5, #0090cc);
+	background: -o-linear-gradient(#2cbcd5, #0090cc);
+	background: -moz-linear-gradient(#2cbcd5, #0090cc);
+	background: -ms-linear-gradient(#2cbcd5, #0090cc);
+	background: linear-gradient(#2cbcd5, #0090cc);
+}
+
+ul.amap-menu-outer li {
+	padding: 0;
+}
+
+ul.amap-menu-outer li:hover {
+	background-color: transparent;
+}
+
+ul.amap-menu-outer li:after {
+	content: "";
+	left: 5px;
+	right: 5px;
+	height: 0;
+	position: absolute;
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+ul.amap-menu-outer li:last-child:after {
+	border: none;
+}
+
+ul.amap-menu-outer li .i-menu-item {
+	font-size: 14px;
+	color: #fff;
+	margin: 0;
+	letter-spacing: 2px;
+	padding: 0 5px;
+}
+.amap-info {
+	transform: translate(65px, 160px) scale(1) rotate(-58deg);
+}
+.amap-info-content {
+	padding: 0;
+	border: 0;
+	border-radius: 3px;
+	overflow: hidden;
+	background-color: transparent !important;
+}
+
+.amap-info-content header {
+	/* padding-right: 19px; */
+	padding-left: 90px;
+}
+
+.amap-info-close {
+	top: 20px;
+	right: 30px;
+	color: #27fae8 !important;
+}
+
+.amap-info-content footer {
+	text-align: right;
+	padding: 0 10px 10px;
+}
+
+.i-info-btn {
+	padding: 0px 5px;
+	font-size: 12px;
+	line-height: 30px;
+	color: #fff;
+	background-color: #1b5a71;
+	border: none;
+	cursor: pointer;
+	letter-spacing: 1px;
+	border-radius: 2px;
+	text-align: center;
+}
+
+.i-info-content {
+	color: #666;
+	line-height: 35px;
+	/* padding: 5px 10px; */
+	letter-spacing: 1px;
+}
+
+.i-info-rbar {
+	position: absolute;
+	right: 85px;
+	top: 15px;
+}
+
+a:hover {
+	color: #fff;
+}
+
+.amap-info-content footer .i-info-btn {
+	margin-left: 10px;
+}
+
+.i-info-rbar .i-info-btn {
+	display: block;
+	margin-top: 10px;
+}
+
+.i-info-rbar .i-info-btn:first-child {
+	margin-top: 0;
+}
+
+.i-panel {
+	font-size: 12px;
+	/* background-color: #fff; */
+	background-image: url(../../Resource/icon/img_tankuang.png);
+	background-repeat: no-repeat;
+	background-size: 100% 102%;
+	min-height: 146px;
+}
+
+.layui-col-space10 > * {
+	padding: 0 10px;
+}
+
+.i-panel-header {
+	/* filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#ff0090cc', endColorStr='#ff2cbcd5', gradientType='0'); */
+	/* background: -webkit-linear-gradient(#0090cc, #2cbcd5); */
+	/* Safari 5.1 - 6.0 */
+	/* background: -o-linear-gradient(#0090cc, #2cbcd5); */
+	/* Opera 11.1 - 12.0 */
+	/* background: -moz-linear-gradient(#0090cc, #2cbcd5); */
+	/* Firefox 3.6 - 15 */
+	/* background: -ms-linear-gradient(#0090cc, #2cbcd5); */
+	/* background: linear-gradient(#0090cc, #2cbcd5); */
+	/* 标准的语法 */
+	height: 55px;
+	padding: 16px 0 5px 20px;
+	background-image: url(../../Resource/icon/img_biaoti_cheliangshiyanxinx.png);
+	background-repeat: no-repeat;
+	background-size: 150%;
+	background-position: 20px 20px;
+	line-height: 35px;
+	color: #fff;
+	text-indent: 5px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.imgDiv {
+	background-image: url(../../Resource/icon/img_liebiao_tankuang_01.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.i-panel-tools {
+	float: right;
+}
+
+.i-panel-header-tool.i-icon {
+	display: inline-block;
+	cursor: pointer;
+	margin-right: 7px;
+}
+
+.i-icon {
+	display: inline-block;
+	height: 16px;
+}
+
+.i-icon-carinfo {
+	background-position: -294px 0;
+}
+
+.i-icon-white-computer {
+	background-position: -357px 0;
+}
+
+.yuanContent {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 5px;
+	padding-bottom: 15px;
+}
+.yuan {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	margin: 0 10px;
+	background-color: #fdfdfd;
+}
+.yuanActive {
+	background-color: #0f4f68;
+}
+.spanDiv {
+	position: relative;
+	width: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.div1 {
+	position: absolute;
+	width: 90%;
+	height: 10px;
+	top: 50%;
+	left: -35px;
+	background-color: #062937;
+	z-index: 1;
+	border-radius: 10px;
+	transform: translateY(-50%);
+}
+.div2 {
+	position: absolute;
+	top: 50%;
+	left: -35px;
+	height: 9px;
+	background-color: #27fcea;
+	z-index: 2;
+	border-radius: 10px;
+	transform: translateY(-50%);
+}
+.tip {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #fed11d;
+}

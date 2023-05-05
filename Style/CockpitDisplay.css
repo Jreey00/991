@@ -1,0 +1,610 @@
+html {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.titlebox-title {
+	text-align: center;
+	color: #88ffff;
+	text-shadow: 0 0px 2px #00e9eb;
+	font-size: 2vmin;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.backgroundimage-style {
+	background-repeat: no-repeat;
+	background-origin: border-box;
+	background-position: top center;
+	background-size: 100% 100%;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.page-backgroundcolor {
+	background-color: #000f26;
+}
+
+.page-head {
+	height: 7vh;
+	color: #88ffff;
+	text-shadow: 0 0px 2px #00e9eb;
+	font-size: 4vmin;
+	font-weight: bold;
+	text-align: center;
+	line-height: 7vh;
+	background-image: url("../Resource/images/CockpitDisplay/top.png");
+}
+
+.left-box {
+	margin-top: -5vh;
+}
+
+.left-box .left-top {
+	height: 20vh;
+}
+
+.left-box .left-top .left-top-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/kuangjia_left_top.png");
+}
+
+.left-box .left-top .left-top-img .left-top-titlebox {
+	height: 20%;
+}
+
+.left-box .left-top .left-top-img .left-top-contentbox {
+	height: 58%;
+	padding: 0 1.2vw;
+	overflow: auto;
+}
+
+.left-box .left-top .left-top-img .left-top-contentbox .left-top-content {
+	height: 100%;
+}
+
+.left-box
+	.left-top
+	.left-top-img
+	.left-top-contentbox
+	.left-top-content
+	#carousel_CarRelativeData {
+	background-color: #021633;
+	overflow: hidden;
+}
+
+#carousel_CarRelativeData .layui-carousel-ind {
+	top: -2vh;
+}
+
+#carousel_CarRelativeData .layui-carousel-ind > ul {
+	padding: 0.4vmin;
+}
+
+#carousel_CarRelativeData .layui-carousel-ind > ul li {
+	width: 1.1vmin;
+	height: 1.1vmin;
+}
+
+#carousel_CarRelativeData > [carousel-item] > * {
+	background-color: #021633;
+}
+
+#carousel_CarRelativeData .content-item {
+	padding-left: 0.5vw;
+	position: relative;
+	top: 40%;
+	transform: translateY(-50%);
+	text-align: center;
+}
+
+#carousel_CarRelativeData .content-item > div {
+	height: 3.5vh;
+	line-height: 3.5vh;
+}
+
+#carousel_CarRelativeData .content-item .content-item-title {
+	color: #fff;
+	font-size: 2.5vmin;
+}
+
+#carousel_CarRelativeData .content-item .content-item-content {
+	color: #00ffff;
+	font-size: 2.2vmin;
+}
+
+#carousel_CarRelativeData
+	.content-item
+	.content-item-content
+	.content-item-img {
+	width: 2vmin;
+	height: 2vmin;
+}
+
+.left-box .left-middle {
+	width: calc(100% - 0.8vw);
+	height: 35vh;
+	position: relative;
+	top: -2.2vh;
+	left: 0.5vw;
+}
+
+.left-box .left-middle .left-middle-left-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/frame_left_mid_01.png");
+}
+
+.left-box .left-middle .left-middle-left-img .left-middle-left-titlebox {
+	height: 12%;
+}
+
+.left-box
+	.left-middle
+	.left-middle-left-img
+	.left-middle-left-titlebox
+	.left-middle-left-title {
+	text-align: right;
+}
+
+.left-box .left-middle .left-middle-left-img .left-middle-left-content {
+	height: 80%;
+}
+
+.left-box
+	.left-middle
+	.left-middle-left-img
+	.left-middle-left-content
+	#div_DriverState {
+	text-align: center;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#div_DriverState #div_DriverState_img {
+	width: 60%;
+	height: 60%;
+}
+
+#div_DriverState #div_DriverState_p {
+	color: #00ffff;
+	font-size: 4vmin;
+}
+
+.left-box .left-middle .left-middle-right-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/frame_left_mid_02.png");
+}
+
+.left-box .left-middle .left-middle-right-img .left-middle-right-titlebox {
+	height: 12%;
+}
+
+.left-box
+	.left-middle
+	.left-middle-right-img
+	.left-middle-right-titlebox
+	.left-middle-right-title {
+	text-align: left;
+}
+
+.left-box .left-middle .left-middle-right-img .left-middle-right-content {
+	height: 80%;
+}
+
+.left-box
+	.left-middle
+	.left-middle-right-img
+	.left-middle-right-content
+	#div_DriverInfo {
+	height: 100%;
+	padding: 0 0.5vw;
+}
+
+#div_DriverInfo .div-driver-img-box {
+	width: 70%;
+	height: 60%;
+	background-image: url("../Resource/images/CockpitDisplay/img_xpk.png");
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 1vmin;
+}
+
+#div_DriverInfo .div-driver-img-box #div_Driver_img {
+	width: 100%;
+	height: 100%;
+}
+
+#div_DriverInfo .div-driver-title {
+	font-size: 1.7vmin;
+	color: #fff;
+	text-align: right;
+}
+
+#div_DriverInfo .div-driver-value {
+	font-size: 1.7vmin;
+	color: #00ffff;
+}
+
+.left-box .left-bottom {
+	height: 45vh;
+	position: relative;
+	top: -3vh;
+}
+
+.left-box .left-bottom .left-bottom-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/frame_left_down.png");
+}
+
+.left-box .left-bottom .left-bottom-img .left-bottom-titlebox {
+	height: 10%;
+}
+
+.left-box .left-bottom .left-bottom-img .left-bottom-titlebox > div {
+	top: 55%;
+}
+
+.left-box .left-bottom .left-bottom-img .left-bottom-contentbox {
+	height: 83%;
+	overflow: hidden;
+	padding: 0 1.2vw;
+}
+
+.left-box
+	.left-bottom
+	.left-bottom-img
+	.left-bottom-contentbox
+	.left-bottom-content {
+	height: 100%;
+	overflow: auto;
+}
+
+.left-box
+	.left-bottom
+	.left-bottom-img
+	.left-bottom-contentbox
+	#div_CanDataBox {
+	height: 100%;
+	padding: 0 1vw;
+}
+
+.center-box {
+	margin-top: 1vh;
+}
+
+.center-box .center-top {
+	height: 51vh;
+}
+
+.center-box .center-top .center-top-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/guangjia_map.png");
+	padding: 2.5vh 1.7vw;
+	overflow: hidden;
+}
+
+.center-box .center-top .center-top-img .selectcar-box {
+	width: 80%;
+	min-width: 300px;
+	position: absolute;
+	left: 50%;
+	top: 8%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 12, 23, 0.5);
+	padding: 10px;
+	z-index: 200;
+}
+
+.center-box .center-top .center-top-img .selectcar-box #txt_Carno {
+	width: 60%;
+	height: 4vh;
+	line-height: 4vh;
+	margin-right: -2px;
+	float: left;
+	font-size: 2vmin;
+}
+
+.center-box .center-top .center-top-img .selectcar-box > div {
+	width: 37%;
+	float: right;
+}
+
+.center-box .center-top .center-top-img .selectcar-box > div #btn_Search {
+	width: 41%;
+	height: 4vh;
+	line-height: 4vh;
+	padding: 0;
+	background-color: black;
+	font-size: 2vmin;
+}
+
+.center-box .center-top .center-top-img .selectcar-box > div #btn_TargetCars {
+	width: 55%;
+	height: 4vh;
+	line-height: 4vh;
+	padding: 0;
+	margin-left: 1%;
+	background-color: black;
+	font-size: 2vmin;
+}
+
+.center-box .center-top .center-top-img .speed-box {
+	width: 13vw;
+	color: #00eff1;
+	font-size: 3vmin;
+	text-align: center;
+	padding: 0.5% 0;
+	position: absolute;
+	left: 3.3%;
+	bottom: 5%;
+	background-image: url("../Resource/images/CockpitDisplay/driver_background.png");
+	z-index: 200;
+}
+
+.center-box .center-top .center-top-img .speed-box .speed-box-img {
+	width: 5.6vmin;
+	height: 4vmin;
+	vertical-align: bottom;
+}
+
+.center-box .center-top .center-top-img .amapCar {
+	width: 45.3vw;
+	height: 45.9vh;
+}
+
+.center-box .center-top .center-top-img #btn_Map_Zoomed {
+	position: absolute;
+	right: 1.8vw;
+	bottom: 2vh;
+	cursor: pointer;
+	font-size: 6vmin;
+}
+
+.center-box .center-bottom {
+	height: 40vh;
+}
+
+.center-box .center-bottom .center-bottom-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/kuangjia_video.png");
+}
+
+.center-box .center-bottom .center-bottom-img .center-bottom-titlebox {
+	height: 10%;
+}
+
+.center-box .center-bottom .center-bottom-img .center-bottom-contentbox {
+	height: 81%;
+	padding: 0 1.4vw;
+}
+
+.center-box
+	.center-bottom
+	.center-bottom-img
+	.center-bottom-contentbox
+	#div_IfreamVideo {
+	height: 100%;
+}
+
+.right-box {
+	margin-top: -5vh;
+}
+
+.right-box .right-top {
+	height: 35vh;
+}
+
+.right-box .right-top .right-top-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/kuanngjia_right_top.png");
+}
+
+.right-box .right-top .right-top-img .right-top-titlebox {
+	height: 10%;
+}
+
+.right-box .right-top .right-top-img .right-top-cententbox {
+	height: 80%;
+	padding: 0 1.2vw;
+}
+
+.right-box .right-top .right-top-img .right-top-cententbox #echarts_Line_box {
+	height: 100%;
+}
+
+#echarts_Line_box #btn_SelectDataItem {
+	position: absolute;
+	top: 1vh;
+	right: 3%;
+	color: #00eff1;
+	border: 1px solid #00eff1;
+	border-radius: 5px;
+	background-color: #011531;
+	padding: 0.2vmin 0.5vmin;
+	z-index: 100;
+	cursor: pointer;
+	font-size: 2vmin;
+}
+
+#echarts_Line_box #echarts_Line {
+	width: 100%;
+	height: 100%;
+}
+
+#echarts_Line_box #btn_EchartsLine_Zoomed {
+	position: absolute;
+	right: 0.1vw;
+	bottom: 0.2vh;
+	color: #fff;
+	cursor: pointer;
+	font-size: 4vmin;
+}
+
+.right-box .right-middle {
+	height: 35vh;
+	position: relative;
+	top: -2.1vh;
+}
+
+.right-box .right-middle .right-middle-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/kuangjia_right_mid.png");
+}
+
+.right-box .right-middle .right-middle-img .right-middle-titlebox {
+	height: 11.5%;
+}
+
+.right-box .right-middle .right-middle-img .right-middle-cententbox {
+	height: 75%;
+	padding: 0 1.2vw;
+}
+
+.right-box
+	.right-middle
+	.right-middle-img
+	.right-middle-cententbox
+	#tb_CarAlarm_box {
+	height: 100%;
+}
+
+#tb_CarAlarm_box > div[lay-id="tbCarAlarm"] {
+	height: 100%;
+	margin: 0;
+	border-color: #051f45;
+	overflow: auto;
+}
+
+#tb_CarAlarm_box > div[lay-id="tbCarAlarm"] .layui-table-view {
+	margin: 0;
+}
+
+#tb_CarAlarm_box > div[lay-id="tbCarAlarm"] .layui-table {
+	color: #fff;
+	background-color: transparent;
+}
+
+#tb_CarAlarm_box > div[lay-id="tbCarAlarm"] .layui-table tbody tr:hover {
+	background-color: transparent;
+}
+
+#tb_CarAlarm_box
+	> div[lay-id="tbCarAlarm"]
+	.layui-table-box
+	.layui-table-header {
+	border-color: #051f45;
+	background-color: #07234d;
+}
+
+#tb_CarAlarm_box
+	> div[lay-id="tbCarAlarm"]
+	.layui-table-header
+	.layui-table
+	th {
+	background-color: #07234d;
+	font-size: 2vmin;
+}
+
+#tb_CarAlarm_box
+	> div[lay-id="tbCarAlarm"]
+	.layui-table-header
+	.layui-table
+	th
+	> .layui-table-cell {
+	height: 2.5vh;
+	line-height: 2.5vh;
+	padding: 0;
+}
+
+.right-box .right-bottom {
+	height: 31vh;
+	position: relative;
+	top: -4.1vh;
+}
+
+.right-box .right-bottom .right-bottom-img {
+	height: 100%;
+	background-image: url("../Resource/images/CockpitDisplay/kuanngjia_right_down.png");
+}
+
+.right-box .right-bottom .right-bottom-img .right-bottom-titlebox {
+	height: 13%;
+	padding: 0 1.5vw;
+}
+
+.right-box .right-bottom .right-bottom-img .right-bottom-cententbox {
+	padding: 0 2vw;
+}
+
+#div_TongjiInfo_box > div {
+	height: 4vh;
+	line-height: 4vh;
+}
+
+#div_TongjiInfo_box .tongji-title {
+	font-size: 2.4vmin;
+	color: #fff;
+}
+
+#div_TongjiInfo_box .tongji-value {
+	font-size: 2.4vmin;
+	color: #00ffff;
+	text-align: right;
+}
+
+#layer_SelectDataItem {
+	height: 100%;
+}
+
+#layer_SelectDataItem #transfer_SelectDataItem {
+	height: 85%;
+}
+
+#layer_SelectDataItem #transfer_SelectDataItem > div {
+	height: 100%;
+	padding-top: 2%;
+	padding-left: 8%;
+}
+
+#layer_SelectDataItem
+	#transfer_SelectDataItem
+	.layui-transfer
+	.layui-transfer-box {
+	overflow: auto;
+}
+
+#layer_SelectDataItem .layer-bottom-btn-box {
+	text-align: center;
+	margin-top: 2vh;
+}
+
+#layer_SelectTargetCars {
+	height: 100%;
+}
+
+#layer_SelectTargetCars #transfer_SelectTargetCars {
+	height: 85%;
+}
+
+#layer_SelectTargetCars #transfer_SelectTargetCars > div {
+	height: 100%;
+	padding-top: 2%;
+	padding-left: 8%;
+}
+
+#layer_SelectTargetCars
+	#transfer_SelectTargetCars
+	.layui-transfer
+	.layui-transfer-box {
+	overflow: auto;
+}
+
+#layer_SelectTargetCars .layer-bottom-btn-box {
+	text-align: center;
+	margin-top: 2vh;
+}

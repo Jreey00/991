@@ -1,0 +1,20 @@
+#i_Layer_LayerSwitching {
+	position: fixed;
+	z-index: 151;
+	top: 70px;
+	right: 20px;
+	width: 290px;
+	border-radius: 5px;
+}
+
+#i_Layer_LayerSwitching .formLayerSwitching .layui-form-item {
+	margin: 5px 0px;
+}
+
+#i_Layer_LayerSwitching
+	.formLayerSwitching
+	.layui-form-item
+	.layui-form-checkbox {
+	margin-top: 0px;
+	margin-right: 0px;
+}

@@ -1,0 +1,63 @@
+#i_Layer_CarStatistics {
+	position: fixed;
+	z-index: 10;
+	top: 15px;
+	/* left: 12px; */
+	right: 12px;
+	color: #ffffff;
+}
+
+.i-Search {
+	position: fixed;
+	z-index: 10;
+	top: 50%;
+	left: 12px;
+	transform: translateY(-50%);
+	width: 65px;
+	height: 65px;
+}
+
+.i_Layer_CarStatisticsDiv {
+	position: relative;
+	width: 149px;
+	height: 52px;
+	background: #003b90;
+	border-radius: 26px 0px 0px 26px;
+	/* width: 185px;
+    height: 90px; */
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.i_Layer_CarStatisticsDivImg {
+	position: absolute;
+	left: 10px;
+	top: 20%;
+	border-radius: 50%;
+	background-color: #ffffff;
+	width: 30px;
+	height: 30px;
+}
+.i_Layer_CarStatisticsDiv1 {
+	position: relative;
+	width: 149px;
+	height: 52px;
+	background: #003b90;
+	border-radius: 0px 26px 26px 0px;
+	/* width: 185px;
+    height: 90px; */
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.i_Layer_CarStatisticsTitle {
+	padding-left: 47px;
+	padding-top: 5px;
+	padding-bottom: 8px;
+}
+
+.i_Layer_CarStatisticsValue {
+	font-size: 20px;
+	font-weight: bolder;
+}

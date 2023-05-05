@@ -1,0 +1,53 @@
+#div_Echarts {
+	padding: 20px 0px;
+}
+
+.label-title {
+	text-align: right;
+	vertical-align: middle;
+	color: #999;
+}
+
+.label-height {
+	height: 28px;
+	line-height: 28px;
+}
+
+.div-canGroupName {
+	height: 32px;
+	line-height: 32px;
+	background: #009eff url(../Resource/icon/img_zdxx.png) no-repeat 15px center;
+	text-align: center;
+	border-radius: 5px 5px 0 0;
+	overflow: hidden;
+	font-weight: normal;
+	color: white;
+	margin: 15px 0 15px 0;
+}
+
+.div-canGroupLine {
+	height: 32px;
+	line-height: 32px;
+	border-bottom: 1px dashed #9dcae4;
+	margin: 15px 0 15px 0;
+}
+
+#btnSelectDataItem {
+	position: absolute;
+	top: 5px;
+	right: 40px;
+	z-index: 100;
+}
+
+#transfer_SelectDataItem {
+	padding: 20px 0px 0px 20px;
+}
+
+#transfer_SelectDataItem .layui-transfer-data {
+	height: 290px !important;
+}
+
+.bottomBtn {
+	text-align: center;
+	margin: 10px 0px;
+}

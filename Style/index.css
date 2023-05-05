@@ -1,0 +1,327 @@
+﻿html {
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+body {
+	width: 100%;
+	min-height: 100%;
+}
+
+.body {
+	width: 100%;
+	min-height: 100%;
+}
+
+/* 重写Layui样式 */
+
+.layui-header {
+	width: 100%;
+	height: 60px;
+	background-color: #003b90;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.layui-header .layui-logo {
+	float: left;
+	font-size: 18px;
+	padding-left: 20px;
+	line-height: 60px;
+	width: 200px;
+}
+
+/* .layui-input {
+    height: 30px;
+    line-height: 30px;
+} */
+
+.layui-btn {
+	height: 30px;
+	line-height: 30px;
+}
+
+.layui-form-item {
+	margin: 2px;
+}
+
+.layui-table-view {
+	margin: 0px;
+}
+
+.layui-body {
+	top: 0;
+	left: 0;
+}
+
+.layui-layer-tab .layui-layer-title {
+	overflow: hidden;
+}
+
+.layui-layer-tabmain {
+	height: 100%;
+}
+
+.layui-layer-tabli {
+	height: 100%;
+}
+
+/* 重写Layui样式 */
+
+/* 头部按钮样式 */
+
+.layui-header-btnbox {
+	position: fixed;
+	right: 0px;
+	z-index: 10;
+	margin: 0px;
+	padding: 0px;
+	height: 60px;
+	line-height: 60px;
+}
+
+.index-header-dropdown {
+	position: relative;
+	display: inline-block;
+	width: 120px;
+	height: 60px;
+	text-align: center;
+}
+
+.index-header-dropdown-title {
+	color: #ffffff;
+	border: none;
+	cursor: default;
+}
+
+.index-header-dropdown-content {
+	display: none;
+	position: absolute;
+	top: 61px;
+	left: -50px;
+	background-color: #0a61ba;
+	width: 200px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.index-header-dropdown-content button {
+	color: #ffffff;
+	width: 200px;
+	height: 40px;
+	background-color: #0a61ba;
+	border: 0px;
+	display: block;
+}
+
+.index-header-dropdown-content button:hover {
+	background-color: #1e9fff;
+}
+
+.index-header-dropdown:hover .index-header-dropdown-content {
+	display: block;
+}
+
+.index-header-btn {
+	padding: 0px 15px;
+	border: 0px;
+	color: #ffffff;
+	background: transparent;
+	cursor: pointer;
+}
+
+.index-header-btn-text {
+	margin-left: 2px;
+	vertical-align: middle;
+}
+
+/* 头部按钮样式 */
+
+/* 搜索悬浮组件 */
+
+.i-Search-FloatingBox {
+	position: fixed;
+	z-index: 11;
+	top: 105px;
+	left: 15px;
+}
+
+#txtAutocomplete {
+	width: 370px;
+}
+
+/* 搜索悬浮组件 */
+
+/* 查询结果按钮 */
+
+#btnShowSearchResult {
+	width: 30px;
+	height: 100px;
+	padding: 0px;
+	white-space: normal;
+	padding: 0 5px;
+	border-radius: 0 7px 7px 0;
+	line-height: 16px;
+}
+
+/* 查询结果按钮 */
+
+#i_Layer_SearchResult {
+	margin: 0px;
+	padding: 0px;
+	display: none;
+}
+
+#i_Layer_SearchResult_Table {
+	margin: 0px;
+	padding: 0px;
+}
+
+.vertical-line-left {
+	border-left: gray 1px solid;
+}
+
+.vertical-line-right {
+	border-right: gray 1px solid;
+}
+
+/* 选择车辆图标窗口 */
+
+#i_Layer_CarIcon .carststuecolor {
+	text-align: center;
+}
+
+#i_Layer_CarIcon .cariconbox {
+	text-align: center;
+	height: 80px;
+	line-height: 80px;
+}
+
+#i_Layer_CarIcon .layui-row {
+	margin-bottom: 10px;
+}
+
+#i_Layer_CarIcon .title {
+	font-size: 15px;
+	font-weight: bolder;
+}
+
+#i_Layer_CarIcon .colorblock {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	margin-right: 5px;
+	vertical-align: -2px;
+}
+
+#i_Layer_CarIcon .green {
+	background-color: #04c027;
+}
+
+#i_Layer_CarIcon .red {
+	background-color: #ea0705;
+}
+
+#i_Layer_CarIcon .gray {
+	background-color: #807e7e;
+}
+
+#i_Layer_CarIcon .layui-form-radio {
+	margin: 0px;
+	padding: 0px;
+}
+
+#i_Layer_CarIcon .block2 {
+	margin-top: 30px;
+}
+
+/* 选择车辆图标窗口 */
+
+.amap-zoom-plus,
+.amap-zoom-minus,
+.amap-zoom-cursor,
+.amap-zoom-label-street,
+.amap-zoom-label-city,
+.amap-zoom-label-province,
+.amap-zoom-label-country {
+	background: url("https://ftp.bmp.ovh/imgs/2021/06/5540d267c2e394f0.png");
+	cursor: pointer;
+}
+.amap-zoom-ruler {
+	background-position: 0 0;
+}
+.amap-zoom-label-street {
+	display: none;
+	background-position: -87px -141px;
+}
+.amap-zoom-label-city {
+	display: none;
+	background-position: -87px -171px;
+}
+.amap-zoom-label-province {
+	display: none;
+	background-position: -87px -203px;
+}
+.amap-zoom-label-country {
+	display: none;
+	background-position: -87px -235px;
+}
+.amap-zoom-plus {
+	background-position: 0 -217px;
+}
+.amap-zoom-minus {
+	background-position: -26px -224px;
+}
+.layui-input {
+	height: 40px;
+	border-radius: 25px;
+}
+.amap-toolbar {
+	top: 50% !important;
+	transform: translateY(-43%);
+}
+.layui-layer-title {
+	color: #565d67;
+	font-weight: bold;
+	font-size: 20px;
+}
+/* img{
+    padding-right: 6px !important;
+} */
+.layui-form-radio > i:hover,
+.layui-form-radioed > i {
+	color: #003b90;
+}
+.bottomBtn .layui-btn {
+	background-color: #063c91 !important;
+}
+
+.amap-controlbar {
+	top: 170px !important;
+}
+.zcDiv {
+	display: flex;
+	align-items: center;
+}
+.zc {
+	border: 3px solid #27fcea;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 4px;
+}
+.yc {
+	border: 3px solid #ffcc00;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 4px;
+}
+.pDiv {
+	padding: 5px 0;
+	font-weight: bold;
+}
+.pDiv2 {
+	color: #32c9ee;
+}
+thead > tr {
+	color: #27fcea;
+}

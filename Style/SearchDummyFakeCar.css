@@ -1,0 +1,28 @@
+.layersearchbox {
+	text-align: center;
+	margin: 10px 0px;
+}
+
+.layersearchbox .layui-input {
+	height: 30px;
+	line-height: 30px;
+}
+
+.layersearchbox .layui-btn {
+	height: 30px;
+	line-height: 30px;
+}
+
+.layersearchbox .layui-form-item {
+	margin: 2px;
+}
+
+#i_Layer_SearchResult_Table + .layui-table-view {
+	margin: 0px;
+	height: auto !important;
+}
+
+.bottomBtn {
+	text-align: center;
+	margin: 10px 0px;
+}

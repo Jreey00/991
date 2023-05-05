@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>历史轨迹——数据展示</title>
+    <link rel="stylesheet" type="text/css" href="Src/layui/layui/css/layui.css">
+    <script src="Src/requirejs/require.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+</head>
+
+<body class="layui-container">
+    <div id="div_Echarts">
+        <button id="btnSelectDataItem" class="layui-btn layui-btn-primary layui-btn-sm">选择Can通道</button>
+        <div class="layui-row">
+            <div id="speedEchart" style="width: 600px;height: 200px;display: inline-block;"></div>
+            <div id="lineEchart" style="width: 600px;height: 200px;display: inline-block;"></div>
+        </div>
+    </div>
+    <div id="layer_SelectDataItem" style="display: none;">
+        <div id="transfer_SelectDataItem"></div>
+        <div class="bottomBtn">
+            <button type="button" class="layui-btn layui-btn-normal" id="btnOK">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
+            <button type="button" class="layui-btn layui-btn-normal" id="btnClose">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+        </div>
+    </div>
+    <div id="div_CarInfo"></div>
+    <script src="Script/HistoricalTrackDisplayData.js?v=1.0.0"></script>
+</body>
+
+</html>

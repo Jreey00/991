@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>多分屏地图展示</title>
+    <link rel="stylesheet" type="text/css" href="Src/layui/layui/css/layui.css">
+    <script src="Src/requirejs/require.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+    <style>
+        .bottomBtn .layui-btn {
+            background-color: #063C91 !important;
+        }
+
+        .layui-form-radio>i:hover,
+        .layui-form-radioed>i {
+            color: #003B90;
+        }
+
+        .layui-form-checked[lay-skin=primary] i {
+            border-color: #003B90 !important;
+            background-color: #003B90;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 分屏地图 -->
+    <div id="body"></div>
+    <!-- 选择分屏数量 -->
+    <div id="div_SelectNumber" class="layui-form">
+        <input type="radio" name="fenping" lay-filter="fenping" value="2" title="二分屏">
+        <input type="radio" name="fenping" lay-filter="fenping" value="4" title="四分屏" checked>
+        <input type="radio" name="fenping" lay-filter="fenping" value="9" title="九分屏">
+    </div>
+    <script src="Script/MultiScreenMap.js?v=1.0.0"></script>
+</body>
+
+</html>

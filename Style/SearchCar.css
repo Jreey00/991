@@ -1,0 +1,52 @@
+.layersearchbox {
+	text-align: center;
+	margin: 10px 0px;
+}
+
+.layersearchbox .layui-input {
+	height: 30px;
+	line-height: 30px;
+}
+
+.layersearchbox .layui-btn {
+	height: 30px;
+	line-height: 30px;
+}
+
+.layersearchbox .layui-form-item {
+	margin: 2px;
+}
+
+#i_Layer_AdvancedSearch .layui-input {
+	height: 30px;
+	line-height: 30px;
+}
+
+#i_Layer_AdvancedSearch .layui-btn {
+	height: 30px;
+	line-height: 30px;
+}
+
+#i_Layer_AdvancedSearch .layui-form-item {
+	margin: 0;
+}
+
+#i_Layer_AdvancedSearch_Div {
+	overflow: visible;
+}
+
+#i_Layer_AdvancedSearch_Div .layui-form-selected dl {
+	max-height: 250px;
+}
+
+.bottomBtn {
+	text-align: center;
+	margin: 10px 0px;
+}
+
+body > div[lay-id="i_Layer_SearchResult_Table"] {
+	margin: 0;
+}
+.bottomBtn .layui-btn {
+	background-color: #063c91 !important;
+}

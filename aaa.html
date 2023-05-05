@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>测试WebSocket</title>
+    <script src="Src/jquery/jquery.min.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+    <script>
+        $(function () {
+            var ws = new WebSocket(allConfig.wslocation);
+            ws.onmessage = function (msg) {
+                var aaa = "";
+                try {
+                    aaa = JSON.parse(msg.data)
+                } catch (ex) {
+                    console.log("异常，原因：" + ex);
+                }
+                if (aaa != "") {
+                    console.log(aaa);
+                    $("#ServerMag").html(JSON.stringify(aaa));
+                }
+            };
+
+            $("#btnClicnMsg").on("click", function () {
+                var sendMsg = $("#clicnMsg").val();
+                if (ws.readyState == WebSocket.OPEN)
+                    ws.send(sendMsg);
+                else
+                    console.log("WebSocket连接已关闭");
+            });
+        });
+    </script>
+    <style>
+    </style>
+</head>
+
+<body>
+    <lable>发送至服务器的消息：</lable><input type="text" id="clicnMsg"><button id="btnClicnMsg">发送</button>
+    <br>
+    <lable>服务器发送的消息：</lable>
+    <lable id="ServerMag"></lable>
+</body>
+
+</html>

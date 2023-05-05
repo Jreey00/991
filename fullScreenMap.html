@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>全屏地图</title>
+    <!-- <link rel="stylesheet" type="text/css" href="Style/modules/loading.css" /> -->
+    <link rel="stylesheet" type="text/css" href="Src/layui/layui/css/layui.css">
+    <script src="Src/requirejs/require.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+    <script src="Src/jquery/jquery.min.js"></script>
+    <script src="Src/circle.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Src/jquery.leoTextAnimate.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .layui-form-select dl dd.layui-this {
+            background-color: #003B90;
+            color: #fff;
+        }
+
+        .layui-form-radio>i:hover,
+        .layui-form-radioed>i {
+            color: #003B90 !important;
+        }
+
+        .layui-layer-setwin a {
+            bottom: 6px;
+        }
+
+        .charging {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .amap-icon img {
+            transform: rotate(-58deg) !important;
+        }
+
+        .amap-marker .amap-marker-content div {
+            transform: rotate(-58deg);
+        }
+
+        .biaoti {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-left: 20px;
+        }
+
+        .pstyle {
+            margin: 9px 0;
+        }
+
+        .pDiv {
+            line-height: 20px;
+        }
+
+        .text {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .layui-table {
+            background-color: unset;
+            color: #fff;
+        }
+
+        .layui-table tbody tr:hover,
+        .layui-table thead tr,
+        .layui-table-click,
+        .layui-table-header,
+        .layui-table-hover,
+        .layui-table-mend,
+        .layui-table-patch,
+        .layui-table-tool,
+        .layui-table-total,
+        .layui-table-total tr,
+        .layui-table[lay-even] tr:nth-child(even) {
+            background-color: unset;
+        }
+
+        .tableTitle {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            height: 41px;
+            justify-content: space-between;
+            position: relative;
+            background-image: url('Resource/icon/img_biaoti_changjingrongliang.png');
+            /* background-size: 100%; */
+            background-repeat: no-repeat;
+            background-color: rgba(3, 33, 45, .7);
+            /* background-color: #033447; (背景不透明方案)*/
+            margin-right: 0 !important;
+            background-position-y: bottom;
+            padding-right: 20px;
+        }
+
+        .tableTitle.position {
+            /* background-position-y: 86%; */
+        }
+
+        .layui-card {
+            background: transparent;
+        }
+
+        .imgWidth {
+            width: 54px;
+        }
+
+        /* .tableStyle{
+    background-image:url('Resource/icon/bg_liebiao.png');
+    margin: 0 auto !important;
+  } */
+        .layui-col-lg1,
+        .layui-col-lg10,
+        .layui-col-lg11,
+        .layui-col-lg12,
+        .layui-col-lg2,
+        .layui-col-lg3,
+        .layui-col-lg4,
+        .layui-col-lg5,
+        .layui-col-lg6,
+        .layui-col-lg7,
+        .layui-col-lg8,
+        .layui-col-lg9,
+        .layui-col-md1,
+        .layui-col-md10,
+        .layui-col-md11,
+        .layui-col-md12,
+        .layui-col-md2,
+        .layui-col-md3,
+        .layui-col-md4,
+        .layui-col-md5,
+        .layui-col-md6,
+        .layui-col-md7,
+        .layui-col-md8,
+        .layui-col-md9,
+        .layui-col-sm1,
+        .layui-col-sm10,
+        .layui-col-sm11,
+        .layui-col-sm12,
+        .layui-col-sm2,
+        .layui-col-sm3,
+        .layui-col-sm4,
+        .layui-col-sm5,
+        .layui-col-sm6,
+        .layui-col-sm7,
+        .layui-col-sm8,
+        .layui-col-sm9,
+        .layui-col-xs1,
+        .layui-col-xs10,
+        .layui-col-xs11,
+        .layui-col-xs12,
+        .layui-col-xs2,
+        .layui-col-xs3,
+        .layui-col-xs4,
+        .layui-col-xs5,
+        .layui-col-xs6,
+        .layui-col-xs7,
+        .layui-col-xs8,
+        .layui-col-xs9 {
+            position: relative;
+            display: block;
+            box-sizing: border-box;
+            color: #fff;
+        }
+
+        .layui-table td,
+        .layui-table th,
+        .layui-table-col-set,
+        .layui-table-fixed-r,
+        .layui-table-grid-down,
+        .layui-table-header,
+        .layui-table-page,
+        .layui-table-tips-main,
+        .layui-table-tool,
+        .layui-table-total,
+        .layui-table-view,
+        .layui-table[lay-skin=line],
+        .layui-table[lay-skin=row] {
+            border-width: 0;
+        }
+
+        .logoTitle {
+            width: 246px;
+            height: 30px;
+            font-size: 30px;
+            margin-left: 8%;
+            padding-top: 12px;
+            font-family: Microsoft YaHei;
+            font-weight: bold;
+            color: #FFFFFF;
+            line-height: 30px;
+            text-shadow: 0px 0px 18px rgba(11, 77, 100, 0.75);
+            background: linear-gradient(0deg, #91E0F1 0%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .weatherContent {
+            width: 101px;
+            height: 20px;
+            font-size: 16px;
+            font-family: Microsoft YaHei;
+            font-weight: 400;
+            color: #FFFFFF;
+        }
+
+        .layui-layer-title {
+            background-color: #021b25;
+        }
+
+        .layui-layer-setwin .layui-layer-close1 {
+            background-color: linen;
+        }
+
+        /* .layui-table-hover{
+      color: #27FCEA;
+  } */
+        .layui-table-grid-down {
+            display: none;
+        }
+
+        .layui-table-view .layui-table td,
+        .layui-table-view .layui-table th {
+            padding: 0px 0;
+        }
+
+        .layui-col-space15>* {
+            margin: 5.5px;
+            padding: unset;
+        }
+    </style>
+</head>
+
+<body>
+    <!--修改title-->
+    <script>
+        const geturl = window.location.href;
+        if (geturl.indexOf("beiqi.dams.top") != -1) {
+            window.document.title = "鲸智自动驾驶运营示范系统-全屏地图"
+        }
+    </script>
+
+
+    <!--主体页面-->
+    <!-- <div class="body" style="display:none;"> -->
+    <div class="body" id="maps">
+        <!-- 头部 -->
+        <div class="layui-header"
+            style="background-image: url(Resource/icon/top_logo.png);background-color: unset;background-size: 100% 100%;border-bottom:unset; ">
+            <div class="layui-row">
+                <div class="layui-col-md4" style="width: 28%;">
+                    <div class="logoTitle">试车场运行监控</div>
+                </div>
+                <div id="btnShowSearchResult"
+                    style="width: 1%;height: 1%;position: absolute;left: 23%;top: 10px;cursor: pointer;"
+                    class="i-Search">
+                    <img src="Resource/images/icon_search.png" style="width: 100%;" alt="">
+                </div>
+                <div class=" layui-col-md7" id="tianqiLink"
+                    style="line-height: 40px;padding-left: 40px;width: 66%;cursor: pointer;">
+                    <div style="display: flex;flex: 1;align-items: center;justify-content: space-between;">
+                        <div>
+                            <img id="weatherIcon" src="Resource/icon/icon_tianqi_qingtian.png" />
+                            <span class="weatherContent">温度 : <span id="temperature">-23.1</span> </span>
+                        </div>
+                        <div>
+                            <img src="Resource/icon/icon_yuliang.png" />
+                            <span class="weatherContent">雨量 : <span id="rainfall">0</span></span>
+                        </div>
+                        <div>
+                            <img src="Resource/icon/icon_fengxiang.png" />
+                            <span class="weatherContent">瞬时风向 : <span
+                                    id="instantaneousWindDirection">-23.1</span></span>
+                        </div>
+                        <div>
+                            <img src="Resource/icon/icon_fengsu.png" />
+                            <span class="weatherContent">瞬时风速 : <span id="instantaneousWindSpeed">20</span></span>
+                        </div>
+                        <div>
+                            <img src="Resource/icon/icon_fengxiang.png" />
+                            <span class="weatherContent">10分钟平均风向 : <span id="averageWindDirection">20</span></span>
+                        </div>
+                        <div>
+                            <img src="Resource/icon/icon_fengsu.png" />
+                            <span class="weatherContent">10分钟平均风速 : <span id="averageWindSpeed">35</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class=" layui-col-md1" style="text-align: center;line-height: 40px;padding-left: 30px;width: 6%;">
+                    <img id="quanping" src="Resource/icon/icon_quanping.png" style="cursor: pointer;" />
+                </div>
+
+            </div>
+        </div>
+        <!-- 主体 -->
+        <div class="layui-body" style="top:0px;">
+            <div id="tableOpen1" style="display: none;position: absolute;left:0;top:15%;z-index:999;cursor: pointer;">
+                <img src="Resource/icon/icon_changdirongliang.png" />
+            </div>
+            <div id="dialog1"
+                style="position: absolute;z-index:999;opacity: 0;margin: 60px 15px 20px 15px;background: #002a3e;">
+                <div class="layui-card layui-row" id="content1">
+                    <div class="tableTitle" id="tableTitle1">
+                        <div class="biaoti">
+                            <img src="Resource/icon/icon_changdirongliang.png" />
+                            场地容量及计划信息
+                        </div>
+                        <div id="closeDialog" style="cursor: pointer;">
+                            <img src="Resource/icon/icon_shousuo_zuo.png" style="width: 10px;cursor: pointer;" />
+                        </div>
+                    </div>
+                    <div id="tableCentent1" style="background-color: rgba(3, 33, 45,.7);" class="layui-row ">
+                        <div class="tableStyle siteTable1 layui-col-xs3 layui-col-sm3 layui-col-md3">
+                            <table id="siteTable1" lay-filter="siteTable1"></table>
+                        </div>
+                        <div class=" tableStyle siteTable2 layui-col-xs3 layui-col-sm3 layui-col-md3">
+                            <table id="siteTable2" lay-filter="siteTable2"></table>
+                        </div>
+                        <div class="tableStyle siteTable3 layui-col-xs3 layui-col-sm3 layui-col-md3">
+                            <table id="siteTable3" lay-filter="siteTable3"></table>
+                        </div>
+                        <div class="tableStyle siteTable4 layui-col-xs3 layui-col-sm3 layui-col-md3">
+                            <table id="siteTable4" lay-filter="siteTable4"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div style="width:50%;margin-bottom:20px;position: absolute;z-index:999;right: 0px;">
+        <div class="layui-card">
+            <div class="tableTitle" >
+               <div>关闭</div>
+                <div class="biaoti">场地设备信息</div>
+            </div>
+            <table id="siteTable2" lay-filter="siteTable2"></table>
+          </div>
+    </div> -->
+            <div id="dialog2" style="width:100%;position: absolute;bottom: 10px;opacity: 0;">
+                <div id="tableOpen2"
+                    style="display: none;padding-top: 10px;cursor: pointer;z-index: 9999;position: absolute;">
+                    <img src="Resource/icon/icon_shiyanweiguixinxi.png" />
+                </div>
+                <div id="tableOpen3" style="display: none;cursor: pointer;z-index: 9999;position: relative;top: -40px;">
+                    <img src="Resource/icon/icon_changdishebeixinxi.png" />
+                </div>
+                <div id="tableOpen4" style="display: none;z-index: 9999;cursor: pointer;position: relative;">
+                    <img src="Resource/icon/icon_yichangjihuaxinxinxi.png" />
+                </div>
+                <div class="layui-card" style="padding-right: 12px;">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md4" id="shiyan1"
+                            style="left: 0;z-index: 9999;margin-left: 23px;width: calc(33.3% - 21px);background: #032735;">
+                            <div class="tableTitle position">
+                                <div class="biaoti">
+                                    <img src="Resource/icon/icon_shiyanweiguixinxi.png" />
+
+                                    试验违规信息</div>
+                                <div id="closeDialog1" style="cursor: pointer;">
+                                    <img src="Resource/icon/icon_shousuo_zuo.png" style="width: 10px;" />
+                                </div>
+                            </div>
+                            <div class="layui-row" style="background-color: rgba(3, 33, 45,.7);padding: 5px;">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                                        <img class="imgWidth" src="Resource/icon/icon_weiguizhuanwan.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left:5px;" id="turning">
+                                        <p id="IllegalTurning" class="pDiv">2</p>
+                                        <p class="pDiv2">违规转弯</p>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                                        <img class="imgWidth" src="Resource/icon/icon_chedaopianlil.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left:5px;" id="departure">
+                                        <p id="LaneDeparture" class="pDiv">2</p>
+                                        <p class="pDiv2">车道偏离</p>
+                                    </div>
+
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                                        <img class="imgWidth" src="Resource/icon/icon_pilaojiashi.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left:5px;" id="fatigue">
+                                        <p id="FatigueDriving" class="pDiv">2</p>
+                                        <p class="pDiv2">疲劳驾驶</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row" style="background-color: rgba(3, 33, 45,.7);padding: 5px;">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                                        <img class="imgWidth" src="Resource/icon/chejuguojin.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left:5px;" id="distanceClose">
+                                        <p id="vehicle" class="pDiv">2</p>
+                                        <p class="pDiv2">车距过近</p>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                                        <img class="imgWidth" src="Resource/icon/icon_chaogaosu.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left:5px;" id="highSpeed">
+                                        <p id="UltraHighSpeed" class="pDiv">2</p>
+                                        <p class="pDiv2">超高速</p>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                                        <img class="imgWidth" src="Resource/icon/icon_chaodisu.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left:5px;" id="lowSpedd">
+                                        <p id="UltraLowSpeed" class="pDiv">2</p>
+                                        <p class="pDiv2">超低速</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md5" id="shiyan2"
+                            style="z-index: 9999;background: #032735;width: calc(41.6% - 21px);">
+                            <div class="tableTitle position">
+                                <div class="biaoti">
+                                    <img src="Resource/icon/icon_changdishebeixinxi.png" />
+
+                                    场地设备信息</div>
+                                <div id="closeDialog2" style="cursor: pointer;">
+                                    <img src="Resource/icon/icon_shousuo_you.png" style="width: 10px;" />
+                                </div>
+                            </div>
+
+                            <!-- <div class="tableTitle">
+                <div class="biaoti">试验违规信息</div>
+                <div>关闭</div>
+            </div> -->
+                            <div class="layui-row" style="background-color: rgba(3, 33, 45,.7);">
+                                <div style="display: flex;flex-direction: column;align-items: center;padding-bottom: 10px;"
+                                    class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                                    <div style="padding: 10px 0;">
+                                        <canvas class="circle" id="circle1" width="70%" height="70%"></canvas>
+                                    </div>
+                                    <div class="zcDiv" id="daozha1" style="cursor: pointer;">
+                                        <span class="zc"></span>
+                                        <span>正常：</span><span style="width: 10px;" id="daozhaZc">11</span>
+                                    </div>
+                                    <div class="zcDiv" id="daozha2" style="cursor: pointer;">
+                                        <span class="yc"></span>
+                                        <span>异常：</span><span style="width: 10px;" id="daozhaYc">11</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: column;align-items: center;padding-bottom: 10px;"
+                                    class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                                    <div style="padding: 10px 0;">
+                                        <canvas class="circle" id="circle2" width="70%" height="70%"></canvas>
+                                    </div>
+                                    <div class="zcDiv" id="shexiangtou1" style="cursor: pointer;">
+                                        <span class="zc"></span>
+                                        <span>正常：</span><span style="width: 10px;" id="sxtZc">11</span>
+                                    </div>
+                                    <div class="zcDiv" id="shexiangtou2" style="cursor: pointer;">
+                                        <span class="yc"></span>
+                                        <span>异常：</span><span style="width: 10px;" id="sxtYc">11</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: column;align-items: center;padding-bottom: 10px;"
+                                    class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                                    <div style="padding: 10px 0;">
+                                        <canvas class="circle" id="circle3" width="70%" height="70%"></canvas>
+                                    </div>
+                                    <div class="zcDiv" id="led1" style="cursor: pointer;">
+                                        <span class="zc"></span>
+                                        <span>正常：</span><span style="width: 10px;" id="ledZc">11</span>
+                                    </div>
+                                    <div class="zcDiv" id="led2" style="cursor: pointer;">
+                                        <span class="yc"></span>
+                                        <span>异常：</span><span style="width: 10px;" id="ledYc">11</span>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: column;align-items: center;padding-bottom: 10px;"
+                                    class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                                    <div style="padding: 10px 0;">
+                                        <canvas class="circle" id="circle4" width="70%" height="70%"></canvas>
+                                    </div>
+                                    <div class="zcDiv" id="other1" style="cursor: pointer;">
+                                        <span class="zc"></span>
+                                        <span>正常：</span><span style="width: 10px;" id="otherZc">11</span>
+                                    </div>
+                                    <div class="zcDiv" id="other2" style="cursor: pointer;">
+                                        <span class="yc"></span>
+                                        <span>异常：</span><span style="width: 10px;" id="otherYc">11</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md3" id="shiyan3"
+                            style="z-index: 9999;background: #032735; width: calc(25% - 11px);">
+                            <div class="tableTitle position">
+                                <div class="biaoti">
+                                    <img src="Resource/icon/icon_yichangjihuaxinxinxi.png" />
+
+                                    异常计划信息</div>
+                                <div id="closeDialog3" style="cursor: pointer;">
+                                    <img src="Resource/icon/icon_shousuo_you.png" style="width: 10px;" />
+                                </div>
+                            </div>
+
+                            <!-- <div class="tableTitle">
+                <div class="biaoti">试验违规信息</div>
+                <div>关闭</div>
+            </div> -->
+                            <div class="layui-row" style="background-color: rgba(3, 33, 45,.7);padding: 5px;">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                                        <img class="imgWidth" src="Resource/icon/icon_weibanliruchang.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left: 10px;" id="failureCheckIn">
+                                        <p id="admission1" class="pDiv">2</p>
+                                        <p class="pDiv2">未办理入场</p>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                                        <img class="imgWidth" src="Resource/icon/icon_weijishiruchang.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left: 10px;" id="timeOutAdmission">
+                                        <p id="admission2" class="pDiv">2</p>
+                                        <p class="pDiv2">未及时入场</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row" style="background-color: rgba(3, 33, 45,.7);padding: 5px;">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                                        <img class="imgWidth" src="Resource/icon/icon_chaoshiweichuchang.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left: 10px;" id="timeOutNotAppear">
+                                        <p id="admission3" class="pDiv">2</p>
+                                        <p class="pDiv2">超时未出场</p>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+                                        <img class="imgWidth" src="Resource/icon/icon_quxiaoshiyandan.png" />
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6"
+                                        style="cursor: pointer;padding-left: 10px;" id="cancellationOrder">
+                                        <p id="admission4" class="pDiv">2</p>
+                                        <p class="pDiv2">取消试验单</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <!-- 地图 -->
+            <div id="map" style="width:100%; height:100%">
+                <!--报警模块-->
+                <!--<div class="layui-card"  id="cards" style="width:230px;height:150px;position: absolute;bottom:-12px;right:20px;z-index:10000">
+        		<div class="layui-card-header" style="height:30px;line-height: 33px;">
+            	<img src="Resource/icon/baojingtixing.png" alt="">
+            报警提醒
+<span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" id="closes" href="javascript:;"></a></span>
+</div>
+        	<div class="layui-card-body">
+<div style="height:19px;width: 186px;margin-left:10px;font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;">
+            <span id="d1"></span> 
+</div>
+ <br> 
+<div style="height:19px;width: 186px;margin-left:10px;font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;">
+            <span id="d2"></span> 
+</div>
+<br> 
+<div style="height:19px;width: 186px;margin-left:10px;font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;">
+            <span id="d3"></span> 
+</div>
+            <div style="text-align: center;">
+            <button type="button" id="lookBtn" class="layui-btn layui-btn-primary  layui-btn-radius" style="color: #0D4596;">查看</button>
+        	</div>
+        	</div>
+      	</div> -->
+            </div>
+            <!-- 搜索悬浮组件 -->
+
+            <!-- <div class="i-Search-FloatingBox">
+                <input id="txtAutocomplete" type="text" placeholder="搜索及定位地点" class="layui-input" />
+            </div> -->
+            <!--查询结果按钮-->
+            <div>
+
+                <!-- <div id="btnShowSearchResult" style="width: 10%;height: 2%;" class="i-Search">
+                    <img src="Resource/images/search_car.png" style="width: 100%;" alt="">
+                </div> -->
+
+            </div>
+
+            <!-- 车辆统计 -->
+            <!-- <div id="i_Layer_CarStatistics">
+                <div class="i_Layer_CarStatisticsDiv" style="background-image: url('Resource/images/car_online.png')"> `
+                <div class="i_Layer_CarStatisticsDiv">
+                    <div class="i_Layer_CarStatisticsDivImg">
+                        <img src="Resource/icon/Clusterer/car-online.png" style="width: 100%;" alt="">
+                    </div>
+                    <div class="i_Layer_CarStatisticsTitle">在线车辆（辆）
+                        <span id="i_Layer_CarStatisticsValueOnline" class="i_Layer_CarStatisticsValue">0</span>
+                    </div>
+                     <div id="i_Layer_CarStatisticsValueOnline" class="i_Layer_CarStatisticsValue">0</div> `
+                </div>
+               `<div class="i_Layer_CarStatisticsDiv" style="background-image: url('Resource/images/car_offline.png')">
+                <div class="i_Layer_CarStatisticsDiv1">
+                    <div class="i_Layer_CarStatisticsDivImg">
+                        <img src="Resource/icon/Clusterer/car-offline.png" style="width: 100%;" alt="">
+                    </div>
+                    <div class="i_Layer_CarStatisticsTitle">离线车辆（辆）
+                        <span id="i_Layer_CarStatisticsValueOutline" class="i_Layer_CarStatisticsValue">0</span>
+                    </div>
+                   ` <div id="i_Layer_CarStatisticsValueOutline" class="i_Layer_CarStatisticsValue">0</div> `
+                </div>
+            </div> -->
+            <!-- 街道模式、卫星模式切换 -->
+            <!-- <div id="i_Layer_LayerSwitching">
+                <div class="layui-form formLayerSwitching" lay-filter="formLayerSwitching">
+                    <div class="layui-form-item">
+                        <select id="cbLayerStyle" class="cbLayerSwitching" lay-filter="cbLayerStyle">
+                            <option value="normal">标准</option>
+                            <option value="dark">幻影黑</option>
+                            <option value="light">月光银</option>
+                            <option value="whitesmoke">远山黛</option>
+                            <option value="fresh">草色青</option>
+                            <option value="grey">雅士灰</option>
+                            <option value="graffiti">涂鸦</option>
+                            <option value="macaron" selected>马卡龙</option>
+                            <option value="blue">靛青蓝</option>
+                            <option value="darkblue">极夜蓝</option>
+                            <option value="wine">酱籽</option>
+                        </select>
+                    </div>
+                    <div class="layui-form-item">
+                        <select id="cbLayerSwitching" class="cbLayerSwitching" lay-filter="cbLayerSwitching">
+                            <option value="0">街道模式</option>
+                            <option value="1">卫星模式</option>
+                        </select>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- 车辆分组模块 -->
+    <div id="module_SettingCarGroup" style="padding: 10px; background-color: #F2F2F2;display: none;">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span>车辆分组</span>
+                        <span style="float: right;">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"
+                                style="background-color: #063C91;border-radius: 15px;"
+                                id="module_SettingCarGroup_BtnGroupAdd">
+                                <i class="layui-icon">&#xe624;</i>添加
+                            </button>
+                        </span>
+                    </div>
+                    <div class="layui-card-body">
+                        <table id="module_SettingCarGroup_TableCarGroup"
+                            lay-filter="module_SettingCarGroup_TableCarGroupFilter"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span>分组：</span>
+                        <span id="module_SettingCarGroup_TxtNowGroup">未选择</span>
+                        <span>，分组内的车辆</span>
+                        <span style="float: right;">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm"
+                                style="background-color: #063C91;border-radius: 15px;"
+                                id="module_SettingCarGroup_BtnGroupCarAdd">
+                                <i class="layui-icon">&#xe624;</i>添加
+                            </button>
+                            <button class="layui-btn layui-btn-danger layui-btn-sm"
+                                style="background-color: #063C91;border-radius: 15px;"
+                                id="module_SettingCarGroup_BtnGroupCarRemove">
+                                <i class="layui-icon">&#xe67e;</i>删除
+                            </button>
+                        </span>
+                    </div>
+                    <div class="layui-card-body">
+                        <table id="module_SettingCarGroup_TableCarGroupCar"
+                            lay-filter="module_SettingCarGroup_TableCarGroupCarFilter"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="module_SettingCarGroup_LayerGroup" class="layui-form" style="display: none;padding: 20px 20px 0 0;">
+        <input id="module_SettingCarGroup_TxtGroupAction" type="hidden" />
+        <input id="module_SettingCarGroup_TxtGroupID" type="hidden" />
+        <div class="layui-form-item" style="margin-bottom: 15px;">
+            <label class="layui-form-label">分组名称</label>
+            <div class="layui-input-block">
+                <input id="module_SettingCarGroup_TxtGroupName" type="text" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 15px;">
+            <label class="layui-form-label">分组颜色</label>
+            <div class="layui-input-inline" style="width: 150px;">
+                <input id="module_SettingCarGroup_TxtGroupColor" value="#2ec770" type="text" placeholder="请选择颜色"
+                    class="layui-input" disabled />
+            </div>
+            <div class="layui-inline" style="left: -11px;">
+                <div id="module_SettingCarGroup_DivGroupColor"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button id="module_SettingCarGroup_BtnGroupSubmit"
+                    style="border-radius: 15px;background-color: #063C91;" class="layui-btn">提交</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 车辆分组模块 -->
+    <!-- <div style="width:200px;margin-bottom:20px;position: absolute;bottom:8px;left:30px;z-index:999">
+        <div class="layui-card">
+            <div class="charging">
+                <div class="text item">
+                  <p class="pstyle text" style="color:#2A3C46">交流电</p>
+                  <img src="Resource/carIcons/jiaoliu-online.png" alt="" />
+                  <p style="color:#71838E" class="pstyle text">在线</p>
+                </div>
+                <div class="text item">
+                    <p class="pstyle text" style="color:#2A3C46">直流电</p>
+                    <img src="Resource/carIcons/zhiliu-offline.png" alt="" />
+                    <p style="color:#71838E" class="pstyle text">离线</p>
+                  </div>
+              </div>
+              <div class="text"  style="text-align:center;color:#6881FF">充电站</div>
+          </div>
+    </div>
+      <div style="width:200px;margin-bottom:20px;position: absolute;bottom:8px;right:30px;z-index:999">
+        <div class="layui-card">
+                <div class="charging">
+                        <div class="text item">
+                          <p class="pstyle text" style="color:#2A3C46">1号</p>
+                          <img src="Resource/carIcons/refueling-online.png" alt="" />
+                          <p style="color:#71838E" class="pstyle text">在线</p>
+                        </div>
+                        <div class="text item">
+                            <p class="pstyle text" style="color:#2A3C46">2号</p>
+                            <img src="Resource/carIcons/refueling-offline.png" alt="" />
+                            <p style="color:#71838E" class="pstyle text">离线</p>
+                          </div>
+                          <div class="text item">
+                                <p class="pstyle text" style="color:#2A3C46">3号</p>
+                                <img src="Resource/carIcons/refueling-online.png" alt="" />
+                                <p style="color:#71838E" class="pstyle text">在线</p>
+                              </div>
+                              <div class="text item">
+                                  <p class="pstyle text" style="color:#2A3C46">4号</p>
+                                  <img src="Resource/carIcons/refueling-offline.png" alt="" />
+                                  <p style="color:#71838E" class="pstyle text">离线</p>
+                                </div>
+                      </div>
+                      <div class="text"  style="text-align:center;color:#6881FF">加油站</div>
+          </div>  
+      </div>
+       -->
+
+    <!--加载动画-->
+    <!-- <div id="loadingDiv">
+       <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div> 
+    </div> -->
+    <script src="Script/index.js?v=1.0.0"></script>
+    <script>
+        (function () {
+            //获取cookie中的值
+            function getCookie(name) {
+                var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+                if (arr = document.cookie.match(reg))
+                    return unescape(arr[2]);
+                else
+                    return null;
+            }
+            if (getCookie('JWT-YQ-Monitor-Token')) {
+                console.log(getCookie('JWT-YQ-Monitor-Token'));
+            } else {
+                console.log(getCookie('JWT-YQ-Monitor-Token'));
+                // window.location.href = "http://pgms.fawjiefang.com.cn";
+            }
+        }());
+    </script>
+</body>
+
+</html>

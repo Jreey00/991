@@ -1,0 +1,15 @@
+.CarAlarm_TabContent {
+	padding: 0px;
+}
+
+#CarAlarm_tbWebCustomizeAlarm + div {
+	margin: 0px;
+}
+
+#CarAlarm_tbTerminalCustomizeAlarm + div {
+	margin: 0px;
+}
+
+#CarAlarm_tbElectricFenceAlarm + div {
+	margin: 0px;
+}

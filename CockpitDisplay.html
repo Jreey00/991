@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>驾驶舱展示</title>
+    <link rel="stylesheet" type="text/css" href="Src/layui/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="Style/CockpitDisplay.css" />
+    <script src="Src/jquery/jquery.min.js"></script>
+    <script src="Src/layui/layui/layui.all.js"></script>
+    <script src="Src/echarts/echarts.min.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+    <script>
+        layer.load(2, {
+            shade: 0.7
+        });
+
+        //地图
+        var mymap = {
+            //地图
+            map: null,
+            //点标记
+            marker: null
+        };
+        //折线图表
+        var lineEchart = null;
+        //WebSocket对象
+        var webSocket = null;
+        //缓存的车辆信息
+        var cacheCarInfo = {
+            //车辆ID
+            carid: null,
+            //终端编号
+            terminalcode: null,
+            //md5值
+            md5: null,
+            //dbc通道
+            dbcvar: null,
+            //驾驶模式通道
+            drivingmodeserial: null,
+            //驾驶员CardID
+            driverID: null
+        };
+        //穿梭框信息
+        var transferInfo = {
+            transfer: null,
+            selected: []
+        };
+        //车辆报警表格
+        var carAlarmTable = null;
+        //定时刷新车辆报警表格的定时器
+        var timerReTable = null;
+        //目标车辆信息集合
+        //格式： var targetCars = { "12344": { Marker: null, Polyline: null, TextMarker: null } };
+        var targetCars = {};
+        //选择目标车辆的穿梭框信息
+        var targetCarTransferInfo = {
+            transfer: null,
+            selected: []
+        };
+        //是否是全屏状态
+        var isFullScreen = {
+            //地图模块
+            map: false,
+            //折线图模块
+            echartsLine: false
+        }
+
+        $(function () {
+            loadCrossDomain();
+            loadWebSocket();
+            loadEcharts();
+            loadCarAlarmTable();
+            btnEvent();
+            SearchCarPageFunction();
+            loadTransfer();
+            ModuleZoomedToFullScreen();
+
+            layui.carousel.render({
+                elem: '#carousel_CarRelativeData',
+                width: '100%', //设置容器宽度
+                height: '100%',
+                // autoplay: false,
+                interval: 5000,
+                arrow: "none" //是否显示箭头
+            });
+        });
+
+        //载入高德地图
+        function loadAMap() {
+            //加载地图
+            window.amapOnLoad = function () {
+                //地图图层
+                var maplayer = {
+                    //高精度测绘图层
+                    mapping: new AMap.TileLayer({
+                        zIndex: 5,
+                        getTileUrl: function (x, y, z) {
+                            return 'http://roads.fawjiefang.com.cn/mapUri/GetMapPics' + "?x=" + x +
+                                "&y=" + y + "&z=" + z;
+                        }
+                    }),
+                };
+                mymap.map = new AMap.Map("amapCar", {
+                    center: new AMap.LngLat(125.03103, 43.99699),
+                    zoom: 14,
+                    expandZoomRange: true,
+                    dragEnable: true,
+                    zooms: [3, 20],
+                    mapStyle: "amap://styles/blue"
+                });
+                mymap.marker = new AMap.Marker({
+                    map: mymap.map,
+                    position: new AMap.LngLat(125.03103, 43.99999),
+                    offset: new AMap.Pixel(-10, -20.5),
+                    angle: 0,
+                    icon: "Resource/icon/img_car_small.png",
+                    visible: false,
+                    clickable: false
+                });
+                maplayer.mapping.setMap(mymap.map);
+                layer.close(layer.index);
+            }
+            var mapJS = document.createElement("script");
+            mapJS.charset = "utf-8";
+            mapJS.src = allConfig.amapJsSrc + "&callback=amapOnLoad";
+            document.head.appendChild(mapJS);
+        }
+        loadAMap();
+
+        //加载跨域
+        function loadCrossDomain() {
+            //配置跨域
+            if (allConfig.CrossDomain) {
+                //解决跨域带cookie
+                $.ajaxSetup({
+                    xhrFields: {
+                        withCredentials: true //支持附带cookie等详细信息
+                    },
+                    crossDomain: true //跨域
+                })
+            }
+        }
+
+        //加载图表
+        function loadEcharts() {
+            lineEchart = echarts.init(document.getElementById('echarts_Line'));
+            var lineEchartOption = {
+                legend: {
+                    type: 'scroll',
+                    left: "left",
+                    top: "3%",
+                    left: '10%',
+                    right: '10%',
+                    data: [],
+                    textStyle: {
+                        color: "#fff"
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    confine: true,
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    },
+                    textStyle: {
+                        color: "#fff"
+                    }
+                },
+                grid: {
+                    top: "18%",
+                    left: '6%',
+                    right: '13%',
+                    bottom: '4%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'time',
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: "#fff"
+                        }
+                    },
+                    axisLabel: {
+                        color: "#fff"
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: "#fff"
+                        }
+                    },
+                    axisLabel: {
+                        color: "#fff"
+                    }
+                },
+                series: [],
+                color: ["#2d8cf0", "#DC143C", "#00FFFF", "#7FFFAA", "#FFFF00", "#FFD700", "#FF00FF"]
+            };
+            lineEchart.setOption(lineEchartOption);
+            window.onresize = function () {
+                lineEchart.resize();
+            };
+        }
+
+        //加载车辆报警表格
+        function loadCarAlarmTable() {
+            carAlarmTable = layui.table.render({
+                elem: '#tb_CarAlarm',
+                id: "tbCarAlarm",
+                skin: 'nob', //行边框风格
+                page: false, //关闭分页,
+                loading: false,
+                data: [],
+                //重新规定返回的数据格式
+                response: {
+                    statusName: 'state', //规定数据状态的字段名称，默认：code
+                    statusCode: 1, //规定成功的状态码，默认：0
+                    msgName: 'msg', //规定状态信息的字段名称，默认：msg
+                    countName: 'total', //规定数据总数的字段名称，默认：count
+                    dataName: 'rows', //规定数据列表的字段名称，默认：data
+                },
+                //将返回的任意数据格式解析成 table 组件规定的数据格式
+                parseData: function (res) { //res：原始返回的数据
+                    return {
+                        "state": res.state, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "total": res.data.total, //解析数据长度
+                        "rows": res.data.rows //解析数据列表
+                    };
+                },
+                cols: [
+                    [{
+                            title: '类型',
+                            width: "30%",
+                            align: "center",
+                            templet: function (d) {
+                                return "按键报警";
+                            }
+                        },
+                        {
+                            field: 'starttime',
+                            title: '发生时间',
+                            align: "center"
+                        },
+                        {
+                            title: '操作',
+                            width: "25%",
+                            align: "center",
+                            templet: function (d) {
+                                return '<div><a href="/videoplayback/index.html#/?id=' + d.id +
+                                    '" style="color: #00eff1;margin: 0px 10px;" target="_blank">回放</a></div>';
+                            }
+                        },
+                    ]
+                ]
+            });
+        }
+
+        //加载选择数据项穿梭框
+        function loadTransfer() {
+            transferInfo.transfer = layui.transfer.render({
+                elem: '#transfer_SelectDataItem', //绑定元素
+                id: 'transfer_SelectDataItem', //定义索引
+                width: "40%",
+                height: "100%",
+                title: ["全部", "全部"],
+                text: {
+                    none: '无数据', //没有数据时的文案
+                    searchNone: '无数据' //搜索无匹配数据时的文案
+                }
+            });
+            targetCarTransferInfo.transfer = layui.transfer.render({
+                elem: '#transfer_SelectTargetCars', //绑定元素
+                id: 'transfer_SelectTargetCars', //定义索引
+                showSearch: true,
+                width: "40%",
+                height: "100%",
+                title: ["全部", "全部"],
+                text: {
+                    none: '无数据', //没有数据时的文案
+                    searchNone: '无数据' //搜索无匹配数据时的文案
+                }
+            });
+        }
+
+        //加载WebSocket
+        function loadWebSocket() {
+            webSocket = {
+                //WebSocket对像
+                ws: null,
+                //开始
+                start: function () {
+                    var that = this;
+
+                    var wsImpl = window.WebSocket || window.MozWebSocket;
+                    //创建WebSocket连接
+                    that.ws = new wsImpl(allConfig.wslocation);
+                    //WebSocket收到消息事件
+                    that.ws.onmessage = function (evt) {
+                        try {
+                            var dataJson = JSON.parse(evt.data);
+                            if (dataJson.t == 6 || dataJson.t == 7) {
+                                var data = dataJson.d;
+                                AnalyticalMultipleData(data);
+                            }
+                        } catch (e) {
+                            console.log("错误：" + e.message);
+                        }
+                    };
+                    //WebSocket打开事件
+                    that.ws.onopen = function () {
+                        var selects = [];
+                        if (targetCarTransferInfo.selected && targetCarTransferInfo.selected.length > 0)
+                            selects = CopyObject(targetCarTransferInfo.selected);
+                        if (cacheCarInfo.terminalcode != null)
+                            selects.push(cacheCarInfo.terminalcode);
+                        if (selects && selects.length > 0)
+                            that.send("4#" + cacheCarInfo.terminalcode);
+                    };
+                    //WebSocket关闭事件
+                    that.ws.onclose = function () {
+                        delete wsImpl;
+                        delete that.ws;
+                        that.start();
+                    }
+                },
+                //发送
+                send: function (msg) {
+                    if (this.ws && this.ws.readyState == WebSocket.OPEN) {
+                        console.log(msg);
+                        this.ws.send(msg);
+                    }
+                }
+            };
+            webSocket.start();
+        }
+
+        //解析多个数据
+        function AnalyticalMultipleData(datas) {
+            if (datas && datas.length > 0) {
+                for (let i = 0; i < datas.length; i++) {
+                    if (datas[i].TerminalCode == cacheCarInfo.terminalcode) {
+                        AnalyticalData(datas[i]);
+                        break;
+                    }
+                }
+                EditTargetCar(datas);
+            }
+        }
+
+        //解析数据
+        function AnalyticalData(data) {
+            if (data.Md5Code) {
+                if (!cacheCarInfo.md5 || cacheCarInfo.md5 != data.Md5Code) {
+                    $.post(allConfig.webHttpApiBase + "/getcarcanlistbymd5", {
+                        md5: data.Md5Code
+                    }, function (result) {
+                        if (result.state == 1) {
+                            var data = result.data;
+                            cacheCarInfo["dbcvar"] = data;
+
+                            //取到驾驶模式的通道，缓存
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].varname == allConfig.filedDrivingMode) {
+                                    cacheCarInfo["drivingmodeserial"] = data[i].serial;
+                                    break;
+                                }
+                            }
+
+                            for (var i = 0; i < data.length; i++) {
+                                var unit = data[i]["unit"];
+                                if (unit == null || unit == "undefined" || typeof (unit) == "undefined")
+                                    data[i]["unit"] = "";
+                            }
+
+                            //生成Can列表
+                            var templateHtml = "{{# layui.each(d.a, function(index, item){ }}" +
+                                "<div class='layui-row' style='height: 6.0vh;line-height:6.0vh;border-bottom: 1px solid #e5e5e5;'>" +
+                                "<div class='layui-col-xs7 layui-elip' title='{{ item.varname }}' style='text-align: left;font-size: 2.5vmin;color: #ffffff;'>" +
+                                "{{ item.varname }}" +
+                                "</div>" +
+                                "<div class='layui-col-xs5 layui-elip' style='text-align: right;font-size: 2.5vmin;color: #00eff1;'>" +
+                                "<span id='lb_value_data{{ item.serial }}'></span>" +
+                                "<span id='lb_unit_data{{ item.serial }}'>{{ item.unit }}</span>" +
+                                "</div>" +
+                                "</div>" +
+                                "{{# }); }}";
+                            var html = layui.laytpl(templateHtml).render({
+                                a: data
+                            });
+                            if (document.getElementById("div_CanData")) {
+                                $("#div_CanData").remove();
+                            }
+                            $("#div_CanDataBox").append("<div id='div_CanData'></div>");
+                            $("#div_CanData").append(html);
+                        }
+                    }, "json");
+                }
+                cacheCarInfo["md5"] = data.Md5Code;
+            } else {
+                if (document.getElementById("div_CanData")) {
+                    $("#div_CanData").remove();
+                }
+            }
+
+            if (document.getElementById("div_CanData") && data.CanData) {
+                SetCarCanInfoValue(data);
+            }
+
+            SetGpsData(data);
+        }
+
+        //设置GPS数据
+        function SetGpsData(data) {
+            //设置车辆定位图标
+            var point = GpsConvert.Convert({
+                lng: data.Lon,
+                lat: data.Lat
+            });
+            mymap.marker.setPosition([point.lng, point.lat]);
+            mymap.marker.setAngle(data.Angle);
+            mymap.marker.show();
+            mymap.map.setCenter([point.lng, point.lat]);
+
+            //设置GPS速度
+            $("#lable_CarSpeed").text(Math.round(data.Speed * 100) / 100);
+
+            //设置曲线图  GPS车速的值
+            var series = lineEchart.getOption().series;
+            layui.each(transferInfo.selected, function (index, item) {
+                if (item == "SPEED") {
+                    var seriesData = series[index].data;
+                    if (seriesData.length != 0) {
+                        if (data.TravelTime != seriesData[seriesData.length - 1][0])
+                            seriesData.push([data.TravelTime, Math.round(data.Speed * 100) / 100]);
+                    } else {
+                        seriesData.push([data.TravelTime, Math.round(data.Speed * 100) / 100]);
+                    }
+                }
+            });
+            lineEchart.setOption({
+                series: series
+            });
+
+            //设置驾驶员名称
+            if (typeof data.DriverID != "undefined" && data.DriverID != null) {
+                if (!cacheCarInfo.driverID || cacheCarInfo.driverID != data.DriverID) {
+                    var driverid = data.DriverID;
+
+                    clearDriverInfo();
+
+                    //原生ajax获取图片的二进制流
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', allConfig.webHttpApiBase + "/getdriverphotobycardid" + "?cardid=" + driverid, true);
+                    xhr.responseType = "blob";
+                    xhr.onload = function () {
+                        if (this.status == 200) {
+                            var blob = this.response;
+                            if (blob != null) {
+                                var img = document.createElement("img");
+                                img.id = "div_Driver_img";
+                                img.onload = function (e) {
+                                    window.URL.revokeObjectURL(img.src);
+                                };
+                                img.src = window.URL.createObjectURL(blob);
+                                if (document.getElementById("div_Driver_img"))
+                                    $("#div_Driver_img").remove();
+                                $("#div_Driver_img_box").append(img);
+                            }
+                        }
+                    }
+                    xhr.send();
+
+                    $.post(allConfig.webHttpApiBase + "/getdriverinfobycardid", {
+                        cardid: driverid
+                    }, function (result) {
+                        if (result.state == "1") {
+                            var data = result.data;
+                            if (data) {
+                                if (data.username)
+                                    $("#div_Driver_Name").text(data.username);
+                                if (data.phonenumber)
+                                    $("#div_Driver_Phone").text(data.phonenumber);
+                                if (data.drivercompany)
+                                    $("#div_Driver_Company").text(data.drivercompany);
+                            }
+                            cacheCarInfo.driverID = driverid;
+                        }
+                    }, "json");
+                }
+            } else {
+                clearDriverInfo();
+            }
+        }
+
+        //自动显示折线  GPS速度
+        function AutoDisplayLineGPSSpeed() {
+            var lineEchartOpt = lineEchart.getOption();
+            transferInfo.selected = ["SPEED"];
+            lineEchartOpt.legend[0].data = ["GPS速度"];
+            lineEchartOpt.series = [{
+                name: "GPS速度",
+                type: 'line',
+                showSymbol: false,
+                data: []
+            }];
+            lineEchart.setOption(lineEchartOpt, true);
+        }
+
+        //设置值
+        function SetCarCanInfoValue(data) {
+            var canData = data.CanData;
+
+            //设置手动自动驾驶
+            if (cacheCarInfo.drivingmodeserial != null && typeof (cacheCarInfo.drivingmodeserial) != "undefined") {
+                var dmSerVal = canData[cacheCarInfo.drivingmodeserial - 1];
+                if (dmSerVal == "1") {
+                    document.getElementById("div_DriverState_img").src = "Resource/images/CockpitDisplay/zidong.png";
+                    document.getElementById("div_DriverState_p").innerHTML = "自动驾驶";
+                } else {
+                    document.getElementById("div_DriverState_img").src = "Resource/images/CockpitDisplay/rengong.png";
+                    document.getElementById("div_DriverState_p").innerHTML = "人工驾驶";
+                }
+            }
+
+            //设置Can列表的值
+            layui.each(canData, function (index, item) {
+                if (isNumber(item)) {
+                    var text = Math.round(item * 100) / 100;
+                    $("#lb_value_data" + (index + 1)).html(text);
+                } else {
+                    $("#lb_value_data" + (index + 1)).html(item);
+                }
+            });
+
+            //设置折线图的值
+            var series = lineEchart.getOption().series;
+            layui.each(transferInfo.selected, function (index, item) {
+                if (item != "SPEED") {
+                    var dbcvar = cacheCarInfo.dbcvar;
+                    if (series && series.length > 0) {
+                        var serial = dbcvar[item].serial;
+                        var valueData = canData[serial - 1];
+                        var seriesData = series[index].data;
+                        if (seriesData.length != 0) {
+                            if (data.TravelTime != seriesData[seriesData.length - 1][0])
+                                seriesData.push([data.TravelTime, Math.round(valueData * 100) / 100]);
+                        } else {
+                            seriesData.push([data.TravelTime, Math.round(valueData * 100) / 100]);
+                        }
+                    }
+                }
+            });
+            lineEchart.setOption({
+                series: series
+            });
+        }
+
+        //刷新车辆报警列表
+        function ReloadCarAlarmTableData() {
+            carAlarmTable.reload({
+                url: allConfig.webHttpApiBase + "/getcaralarmfault",
+                method: "post",
+                where: {
+                    carid: cacheCarInfo.carid
+                }
+            });
+        }
+
+        //按钮事件
+        function btnEvent() {
+            //点击车辆编号文本框
+            $("#txt_Carno").on("click", function () {
+                layer.open({
+                    type: 1,
+                    title: "选择车辆",
+                    content: "<iframe id='iframeSelectCar' name='iframeSelectCar' scrolling='auto' frameborder='0' src='SearchCar.html?BottomBtnShow=true&SingleOrMultiple=single' style='width:100%; height:100%; display:block;'></iframe>",
+                    area: ['80%', '100%'],
+                    closeBtn: 1,
+                    shade: 0.5,
+                    anim: 5,
+                    resize: false
+                });
+            });
+            //点击查看按钮
+            $("#btn_Search").on("click", function () {
+                if (!cacheCarInfo.carid) {
+                    layer.msg("车辆编号不能为空", {
+                        icon: 0
+                    });
+                    return;
+                }
+                if (!cacheCarInfo.terminalcode) {
+                    layer.msg("车辆编号不能为空", {
+                        icon: 0
+                    });
+                    return;
+                }
+                mymap.marker.hide();
+                webSocket.send("4#" + cacheCarInfo.terminalcode);
+
+                clearPage();
+                //定时刷新车辆报警列表
+                if (timerReTable != null) {
+                    window.clearInterval(timerReTable);
+                    timerReTable = null;
+                }
+                ReloadCarAlarmTableData();
+                // timerReTable = window.setInterval(ReloadCarAlarmTableData, 10 * 1000);
+
+                loadCarStatisticsInfo();
+                AddIfreamVideo(cacheCarInfo.terminalcode);
+                AutoDisplayLineGPSSpeed();
+            });
+            //点击选择目标车辆按钮
+            $("#btn_TargetCars").on("click", function () {
+                if (!cacheCarInfo.carid) {
+                    layer.msg('请先查询车辆！', {
+                        icon: 2
+                    });
+                    return;
+                }
+                $.post("http://roads.fawjiefang.com.cn/mapwebapi/pgms/getbindcarinfolist", {}, function (
+                    result) {
+                    if (result.msgBody.state == 1) {
+                        var data = result.msgBody.data;
+                        var transferData = [];
+                        for (var i = 0; i < data.length; i++) {
+                            transferData.push({
+                                "value": data[i].terminalcode,
+                                "title": data[i].carno + "（试验车）"
+                            });
+                        }
+                        layui.transfer.reload("transfer_SelectTargetCars", {
+                            data: transferData,
+                            value: targetCarTransferInfo.selected
+                        });
+                        layer.open({
+                            type: 1,
+                            title: "选择目标车辆",
+                            content: $('#layer_SelectTargetCars'),
+                            area: ["60%", "80%"],
+                            closeBtn: 1,
+                            shade: 0.3,
+                            shadeClose: true,
+                            anim: 5,
+                            resize: false
+                        });
+                    }
+                }, "json");
+            });
+            //确定选择按钮
+            $("#btn_SelectTargetCars_OK").on("click", function () {
+                DeleteMapTargetCar();
+                var data = layui.transfer.getData('transfer_SelectTargetCars');
+                if (data && data.length > 0) {
+                    var selects = [];
+                    var rdShow = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var tc = data[i].value;
+                        var carno = data[i].title.split("（")[0];
+                        selects.push(tc);
+                        AddTargetCar(tc);
+                        rdShow.push({
+                            maincarno: $("#txt_Carno").val(),
+                            carno: carno,
+                            tc: tc
+                        });
+                    }
+                    webSocket.send("4#" + selects);
+                    targetCarTransferInfo.selected = selects;
+                    loadRelativeData(rdShow);
+                }
+                layer.close(layer.index);
+            });
+            //关闭按钮
+            $("#btn_SelectTargetCars_Close").on("click", function () {
+                layer.close(layer.index);
+            });
+            //选择数据项按钮
+            $("#btn_SelectDataItem").on("click", function () {
+                if (!cacheCarInfo.carid) {
+                    layer.msg('请先查询车辆！', {
+                        icon: 2
+                    });
+                    return;
+                }
+                var transferData = [];
+                var dbcvar = cacheCarInfo.dbcvar;
+                if (dbcvar) {
+                    transferData.push({
+                        "value": "SPEED",
+                        "title": "GPS速度"
+                    });
+                    for (var i = 0; i < dbcvar.length; i++) {
+                        transferData.push({
+                            "value": i,
+                            "title": dbcvar[i].varname
+                        });
+                    }
+                    layui.transfer.reload("transfer_SelectDataItem", {
+                        data: transferData,
+                        value: transferInfo.selected
+                    });
+                    layer.open({
+                        type: 1,
+                        title: "选择数据项",
+                        content: $('#layer_SelectDataItem'),
+                        area: ["60%", "80%"],
+                        closeBtn: 1,
+                        shade: 0.3,
+                        shadeClose: true,
+                        anim: 5,
+                        resize: false
+                    });
+                } else {
+                    layer.msg('此车辆不在线或车辆没有上报DBC！', {
+                        icon: 2
+                    });
+                }
+            });
+            //确定选择按钮
+            $("#btn_OK").on("click", function () {
+                var data = layui.transfer.getData('transfer_SelectDataItem');
+                if (data && data.length > 0) {
+                    var select = [];
+                    var legend = [];
+                    var series = [];
+                    for (var i = 0; i < data.length; i++) {
+                        select.push(data[i].value);
+                        legend.push(data[i].title);
+                        series.push({
+                            name: data[i].title,
+                            type: 'line',
+                            showSymbol: false,
+                            data: []
+                        });
+                    }
+                    transferInfo.selected = select;
+                    var lineEchartOpt = lineEchart.getOption();
+                    lineEchartOpt.legend[0].data = legend;
+                    lineEchartOpt.series = series;
+                    lineEchart.setOption(lineEchartOpt, true);
+                } else {
+                    transferInfo.selected = [];
+                    var lineEchartOpt = lineEchart.getOption();
+                    lineEchartOpt.legend[0].data = [];
+                    lineEchartOpt.series = [];
+                    lineEchart.setOption(lineEchartOpt, true);
+                }
+                layer.close(layer.index);
+            });
+            //关闭按钮
+            $("#btn_Close").on("click", function () {
+                layer.close(layer.index);
+            });
+        }
+
+        //加载主从车相对数据
+        function loadRelativeData(cardata) {
+            var templateHtml = '<div class="layui-carousel" id="carousel_CarRelativeData">' +
+                '<div carousel-item>' +
+                '{{# layui.each(d.a, function(index, item){ }}' +
+                '<div class="layui-row full-height">' +
+                '<div class="layui-col-xs12 content-item">' +
+                '<div class="content-item-title">' +
+                '<span>主车：{{ item.maincarno }}&nbsp;>&nbsp;目标车：{{ item.carno }}</span>' +
+                '</div>' +
+                '<div class="content-item-content">' +
+                '<img class="content-item-img" src="Resource/images/CockpitDisplay/icon_fx.png" />' +
+                '<span>直线距离：</span>' +
+                '<span id="lb_RelativeData_Distance_{{ item.tc }}"></span>' +
+                '<span>KM</span>' +
+                '</div>' +
+                '<div class="content-item-content">' +
+                '<img class="content-item-img" src="Resource/images/CockpitDisplay/icon_sd.png" />' +
+                '<span>相对速度：</span>' +
+                '<span id="lb_RelativeData_Speed_{{ item.tc }}"></span>' +
+                '<span>KM/H</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '{{# }); }}' +
+                '</div>' +
+                '</div>';
+            var html = layui.laytpl(templateHtml).render({
+                a: cardata
+            });
+            $("#carousel_CarRelativeData_box").append(html);
+            layui.carousel.render({
+                elem: '#carousel_CarRelativeData',
+                width: '100%', //设置容器宽度
+                height: '100%',
+                // autoplay: false,
+                interval: 5000,
+                arrow: "none" //是否显示箭头
+            });
+        }
+
+        //清除主从车相对数据
+        function ClearRelativeData() {
+            if (document.getElementById("carousel_CarRelativeData")) {
+                $("#carousel_CarRelativeData").remove();
+            }
+        }
+
+        //搜索车辆（SearchCar.html）子页面回调的方法
+        function SearchCarPageFunction() {
+            //完成选择车辆
+            SearchCarPage_Complete = function (data) {
+                if (data) {
+                    cacheCarInfo["carid"] = data.id;
+                    cacheCarInfo["terminalcode"] = data.terminalcode;
+                    $("#txt_Carno").val(data.carno);
+                    layer.close(layer.index);
+                }
+            }
+            //关闭
+            SearchCarPage_Close = function () {
+                layer.close(layer.index);
+            }
+        }
+
+        //添加目标车辆值
+        function AddTargetCar(tc) {
+            if (targetCars[tc])
+                return;
+            var marker = new AMap.Marker({
+                map: mymap.map,
+                position: [121.59996, 31.197646],
+                offset: new AMap.Pixel(-10, -20.5),
+                angle: 0,
+                icon: "Resource/icon/img_car_small.png",
+                clickable: false
+            });
+            var polyline = new AMap.Polyline({
+                map: mymap.map,
+                path: [
+                    [121.59996, 31.197646],
+                    [121.59876, 31.197364]
+                ],
+                borderWeight: 2,
+                strokeColor: 'red',
+                lineJoin: 'round'
+            });
+            var textMarker = new AMap.Text({
+                map: mymap.map,
+                position: [121.59996, 31.197646],
+                text: "0km",
+                clickable: false
+            });
+            marker.hide();
+            polyline.hide();
+            textMarker.hide();
+            targetCars[tc] = {
+                Marker: marker,
+                Polyline: polyline,
+                TextMarker: textMarker
+            };
+        }
+
+        //修改目标车辆值
+        function EditTargetCar(data) {
+            if (!targetCars)
+                return;
+            var originalCarPoint = null;
+            var originalCarAngle = 0;
+            var originalCarSpeed = 0;
+            for (var i = 0; i < data.length; i++) {
+                if (cacheCarInfo.terminalcode == data[i].TerminalCode) {
+                    var carpoint = GpsConvert.Convert({
+                        lng: data[i].Lon,
+                        lat: data[i].Lat
+                    });
+                    originalCarPoint = [carpoint.lng, carpoint.lat];
+                    var originalCarAngle = data[i].Angle;
+                    var originalCarSpeed = data[i].Speed;
+                    break;
+                }
+            }
+            for (var i = 0; i < data.length; i++) {
+                var tc = data[i].TerminalCode;
+                var target = targetCars[tc];
+                if (target) {
+                    var carpoint = GpsConvert.Convert({
+                        lng: data[i].Lon,
+                        lat: data[i].Lat
+                    });
+                    var point = [carpoint.lng, carpoint.lat];
+                    //直线的中心点
+                    var polylineCenterPoint = GetCenterPointFromListOfCoordinates(CopyObject([originalCarPoint,
+                        point
+                    ]));
+                    //距离值
+                    var distance = AMap.GeometryUtil.distance(CopyObject(originalCarPoint), CopyObject(point));
+                    distance = Math.round((distance / 1000) * 100) / 100;
+                    target.Marker.setPosition(CopyObject(point));
+                    target.Polyline.setPath(CopyObject([originalCarPoint, point]));
+                    target.TextMarker.setPosition(CopyObject(polylineCenterPoint));
+                    target.TextMarker.setText(distance + "km");
+                    target.Marker.show();
+                    target.Polyline.show();
+                    target.TextMarker.show();
+
+                    //更新主从车相对数据面板内的数据
+                    $("#lb_RelativeData_Distance_" + tc).text(distance);
+                    var angle = data[i].Angle;
+                    var speed = data[i].Speed;
+                    var relativelyAngle = Math.abs(originalCarAngle - angle);
+                    var minAngle = 0;
+                    if (relativelyAngle > 180)
+                        var minAngle = 360 - relativelyAngle;
+                    else
+                        var minAngle = relativelyAngle;
+                    var aAngle = 0;
+                    if (minAngle > 90) {
+                        var aAngle = 180 - minAngle;
+                        if (originalCarSpeed && speed) {
+                            var value = Math.abs(originalCarSpeed + (speed * Math.cos(aAngle)));
+                            $("#lb_RelativeData_Speed_" + tc).text(value.toFixed(2));
+                        } else {
+                            $("#lb_RelativeData_Speed_" + tc).text(0);
+                        }
+                    } else {
+                        var aAngle = minAngle;
+                        if (originalCarSpeed && speed) {
+                            var value = Math.abs(originalCarSpeed - (speed * Math.cos(aAngle)));
+                            $("#lb_RelativeData_Speed_" + tc).text(value.toFixed(2));
+                        } else {
+                            $("#lb_RelativeData_Speed_" + tc).text(0);
+                        }
+                    }
+                }
+            }
+        }
+
+        function DeleteMapTargetCar() {
+            ClearRelativeData();
+            if (targetCarTransferInfo.selected && targetCarTransferInfo.selected.length > 0) {
+                for (var i = 0; i < targetCarTransferInfo.selected.length; i++) {
+                    DeleteTargetCar(targetCarTransferInfo.selected[i]);
+                }
+                var selects = targetCarTransferInfo.selected.join(",");
+                webSocket.send("13#" + selects);
+                targetCarTransferInfo.selected = [];
+            }
+        }
+
+        //删除目标车辆
+        function DeleteTargetCar(tc) {
+            if (!targetCars[tc])
+                return;
+            mymap.map.remove(targetCars[tc].Marker);
+            mymap.map.remove(targetCars[tc].Polyline);
+            mymap.map.remove(targetCars[tc].TextMarker);
+            delete targetCars[tc].Marker;
+            delete targetCars[tc].Polyline;
+            delete targetCars[tc].TextMarker;
+            delete targetCars[tc];
+        }
+
+        //添加视频直播
+        function AddIfreamVideo(terminalcode) {
+            var parentDom = document.getElementById("div_IfreamVideo")
+            if (document.getElementById("iframe_LiveBroadcast")) {
+                parentDom.removeChild(document.getElementById("iframe_LiveBroadcast"));
+            }
+            $("#div_IfreamVideo").prepend(
+                "<iframe id='iframe_LiveBroadcast' name='iframe_LiveBroadcast' scrolling='auto' frameborder='0' allowfullscreen='allowfullscreen' mozallowfullscreen='mozallowfullscreen' msallowfullscreen='msallowfullscreen' oallowfullscreen='oallowfullscreen' webkitallowfullscreen='webkitallowfullscreen'  style='width:100%; height:100%; display:block;'></iframe>"
+            );
+        }
+
+        //加载车辆统计信息
+        function loadCarStatisticsInfo() {
+            $("#tongji_ZuoRiTotalMileage").html("0");
+            $("#tongji_ZuoRiAutomaticMileage").html("0");
+            $("#tongji_ZuoRiTotalTime").html("0");
+            $("#tongji_ZuoRiAutomaticTime").html("0");
+            $("#tongji_SevenDayTotalMileage").html("0");
+            // $("#tongji_SevenDayAutomaticMileage").html("0");
+            $("#tongji_SevenDayTotalTime").html("0");
+            // $("#tongji_SevenDayAutomaticTime").html("0");
+            $.post(allConfig.webHttpApiBase + "/getcarstatisticsinfo", {
+                carid: cacheCarInfo.carid
+            }, function (result) {
+                if (result.state == 1) {
+                    var data = result.data;
+                    if (data != null) {
+                        $("#tongji_ZuoRiTotalMileage").html(Math.round(data.ZuoRiTotalMileage * 100) / 100);
+                        $("#tongji_ZuoRiAutomaticMileage").html(Math.round(data.ZuoRiAutomaticMileage * 100) /
+                            100);
+                        $("#tongji_ZuoRiTotalTime").html(Math.round(data.ZuoRiTotalTime / 3600 * 100) / 100);
+                        $("#tongji_ZuoRiAutomaticTime").html(Math.round(data.ZuoRiAutomaticTime / 3600 * 100) /
+                            100);
+                        $("#tongji_SevenDayTotalMileage").html(Math.round(data.SevenDayTotalMileage * 100) /
+                            100);
+                        // $("#tongji_SevenDayAutomaticMileage").html(Math.round(data.SevenDayAutomaticMileage * 100) / 100);
+                        $("#tongji_SevenDayTotalTime").html(Math.round(data.SevenDayTotalTime / 3600 * 100) /
+                            100);
+                        // $("#tongji_SevenDayAutomaticTime").html(Math.round(data.SevenDayAutomaticTime / 3600 * 100) / 100);
+                    }
+                }
+            }, "json");
+        }
+
+        //清空页面
+        function clearPage() {
+            //主从车信息
+            DeleteMapTargetCar();
+
+            //驾驶模式
+            document.getElementById("div_DriverState_img").src = "Resource/images/CockpitDisplay/rengong.png";
+            document.getElementById("div_DriverState_p").innerHTML = "人工驾驶";
+
+            //Echarts
+            transferInfo.selected = [];
+            var lineEchartOpt = lineEchart.getOption();
+            lineEchartOpt.legend[0].data = [];
+            lineEchartOpt.series = [];
+            lineEchart.setOption(lineEchartOpt, true);
+        }
+
+        //清除驾驶员信息
+        function clearDriverInfo() {
+            $("#div_Driver_Name").text("");
+            $("#div_Driver_Phone").text("");
+            $("#div_Driver_Company").text("");
+            if (document.getElementById("div_Driver_img"))
+                $("#div_Driver_img").remove();
+        }
+
+        //模块放大到全屏
+        function ModuleZoomedToFullScreen() {
+            $("#btn_Map_Zoomed").on("click", function () {
+                if (isFullScreen.map) {
+                    isFullScreen.map = false;
+                    $("#amapCar_box").css("position", "").css("top", "").css("left", "");
+                    $("#amapCar_box").css("width", "").css("height", "").css("z-index", "");
+                    $("#amapCar").css("width", "").css("height", "");
+                    $("#speed_box").css("left", "").css("bottom", "");
+                    $("#btn_Map_Zoomed").css("font-size", "").css("right", "").css("bottom", "");
+                    $("#btn_Map_Zoomed").removeClass("layui-icon-screen-restore");
+                    $("#btn_Map_Zoomed").addClass("layui-icon-screen-full");
+                } else {
+                    isFullScreen.map = true;
+                    $("#amapCar_box").css("position", "fixed").css("top", "0").css("left", "0");
+                    $("#amapCar_box").css("width", "100vw").css("height", "100vh").css("z-index", "999");
+                    $("#amapCar").css("width", "100%").css("height", "100%");
+                    $("#speed_box").css("left", "0").css("bottom", "0");
+                    $("#btn_Map_Zoomed").css("font-size", "7vmin").css("right", "0.5vw").css("bottom", "0.5vh");
+                    $("#btn_Map_Zoomed").removeClass("layui-icon-screen-full");
+                    $("#btn_Map_Zoomed").addClass("layui-icon-screen-restore");
+                }
+            });
+            $("#btn_EchartsLine_Zoomed").on("click", function () {
+                if (isFullScreen.echartsLine) {
+                    isFullScreen.echartsLine = false;
+                    $("#echarts_Line_box").css("position", "").css("top", "").css("left", "");
+                    $("#echarts_Line_box").css("width", "").css("height", "");
+                    $("#echarts_Line_box").css("background-color", "").css("z-index", "");
+                    $("#echarts_Line").css("width", "").css("height", "");
+                    $("#btn_SelectDataItem").css("font-size", "");
+                    $("#btn_EchartsLine_Zoomed").css("font-size", "").css("right", "").css("bottom", "");
+                    $("#btn_EchartsLine_Zoomed").removeClass("layui-icon-screen-restore");
+                    $("#btn_EchartsLine_Zoomed").addClass("layui-icon-screen-full");
+                    lineEchart.resize();
+                } else {
+                    isFullScreen.echartsLine = true;
+                    $("#echarts_Line_box").css("position", "fixed").css("top", "0").css("left", "0");
+                    $("#echarts_Line_box").css("width", "100vw").css("height", "100vh");
+                    $("#echarts_Line_box").css("background-color", "#011531").css("z-index", "999");
+                    $("#echarts_Line").css("width", "100%").css("height", "100%");
+                    $("#btn_SelectDataItem").css("font-size", "3vmin");
+                    $("#btn_EchartsLine_Zoomed").css("font-size", "7vmin").css("right", "0.5vw").css("bottom",
+                        "0.5vh");
+                    $("#btn_EchartsLine_Zoomed").removeClass("layui-icon-screen-full");
+                    $("#btn_EchartsLine_Zoomed").addClass("layui-icon-screen-restore");
+                    lineEchart.resize();
+                }
+            });
+        }
+
+        //判断是否是数字
+        function isNumber(val) {
+            var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+            var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+            if (regPos.test(val) || regNeg.test(val)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        //复制对象（仅限JSON对象，不含方法）
+        function CopyObject(object) {
+            return JSON.parse(JSON.stringify(object));
+        }
+
+        //获取多个坐标点的中心点
+        //适用于400km以内
+        function GetCenterPointFromListOfCoordinates(points) {
+            var total = points.length;
+            var lat = 0,
+                lon = 0,
+                pi = 3.1415926;
+            for (var i = 0; i < points.length; i++) {
+                lon += points[i][0] * pi / 180;
+                lat += points[i][1] * pi / 180;
+            }
+            lat /= total;
+            lon /= total;
+            return [lon * 180 / pi, lat * 180 / pi];
+        }
+
+        //GPS坐标偏移
+        var GpsConvert = {
+            pi: 3.14159265358979324,
+            a: 6378245.0,
+            ee: 0.00669342162296594323,
+            Convert: function (point) {
+                if ((point.needcorrect === false) || !(point.lat && point.lng)) {
+                    return point;
+                }
+                if (point.getLat && point.getLng) {
+                    return point;
+                }
+                point.needcorrect = false;
+                var wgLat = point.lat;
+                var wgLon = point.lng;
+                if (this.outOfChina(wgLat, wgLon)) {
+                    point.lat = wgLat;
+                    point.lng = wgLon;
+                    return point;
+                }
+                var dLat = this.transformLat(wgLon - 105.0, wgLat - 35.0);
+                var dLon = this.transformLon(wgLon - 105.0, wgLat - 35.0);
+                var radLat = wgLat / 180.0 * this.pi;
+                var magic = Math.sin(radLat);
+                magic = 1 - this.ee * magic * magic;
+                var sqrtMagic = Math.sqrt(magic);
+                dLat = (dLat * 180.0) / ((this.a * (1 - this.ee)) / (magic * sqrtMagic) * this.pi);
+                dLon = (dLon * 180.0) / (this.a / sqrtMagic * Math.cos(radLat) * this.pi);
+                point.lat = wgLat + dLat;
+                point.lng = wgLon + dLon;
+                return point;
+            },
+            outOfChina: function (lat, lon) {
+                if (lon < 72.004 || lon > 137.8347)
+                    return true;
+                if (lat < 0.8293 || lat > 55.8271)
+                    return true;
+                return false;
+            },
+            transformLat: function (x, y) {
+                var ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+                ret += (20.0 * Math.sin(6.0 * x * this.pi) + 20.0 * Math.sin(2.0 * x * this.pi)) * 2.0 / 3.0;
+                ret += (20.0 * Math.sin(y * this.pi) + 40.0 * Math.sin(y / 3.0 * this.pi)) * 2.0 / 3.0;
+                ret += (160.0 * Math.sin(y / 12.0 * this.pi) + 320 * Math.sin(y * this.pi / 30.0)) * 2.0 / 3.0;
+                return ret;
+            },
+            transformLon: function (x, y) {
+                var ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+                ret += (20.0 * Math.sin(6.0 * x * this.pi) + 20.0 * Math.sin(2.0 * x * this.pi)) * 2.0 / 3.0;
+                ret += (20.0 * Math.sin(x * this.pi) + 40.0 * Math.sin(x / 3.0 * this.pi)) * 2.0 / 3.0;
+                ret += (150.0 * Math.sin(x / 12.0 * this.pi) + 300.0 * Math.sin(x / 30.0 * this.pi)) * 2.0 /
+                    3.0;
+                return ret;
+            }
+        };
+    </script>
+</head>
+
+<body class="page-backgroundcolor">
+    <!-- 页面头部 -->
+    <div class="layui-row">
+        <!-- 头部标题 -->
+        <div class="layui-col-xs12 page-head backgroundimage-style">
+            <!--根据网址动态设置头部标题-->
+            <script>
+                const geturl = window.location.href;
+                if (geturl.indexOf("beiqi.dams.top") != -1) {
+                    window.document.title = "鲸智自动驾驶运营示范系统-驾驶仓"
+                    document.write("鲸智自动驾驶运营示范系统");
+                } else if (geturl.indexOf("hongyan.dams.top") != -1) {
+                    document.write("红岩远程监控系统");
+                } else {
+                    document.write("驾驶舱展示");
+                }
+            </script>
+        </div>
+    </div>
+    <!-- 页面正文 -->
+    <div class="layui-fluid layui-row layui-col-space5 page-content">
+        <!-- 左边 -->
+        <div class="layui-col-xs3 left-box">
+            <!-- 左边上部 -->
+            <div class="layui-row left-top">
+                <div class="layui-col-xs12 left-top-img backgroundimage-style">
+                    <div class="layui-row left-top-titlebox">
+                        <div class="layui-col-xs12 titlebox-title">主从车相对数据</div>
+                    </div>
+                    <div class="layui-row left-top-contentbox">
+                        <div class="layui-col-xs12 left-top-content" id="carousel_CarRelativeData_box">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 左边中部 -->
+            <div class="layui-row left-middle">
+                <div class="layui-col-xs6 left-middle-left-img backgroundimage-style">
+                    <div class="layui-row left-middle-left-titlebox">
+                        <div class="layui-col-xs12 titlebox-title left-middle-left-title">驾驶状态&nbsp;</div>
+                    </div>
+                    <div class="layui-row left-middle-left-content">
+                        <div class="layui-col-xs12" id="div_DriverState">
+                            <img id="div_DriverState_img" src="Resource/images/CockpitDisplay/rengong.png" />
+                            <p id="div_DriverState_p">人工驾驶</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 left-middle-right-img backgroundimage-style">
+                    <div class="layui-row left-middle-right-titlebox">
+                        <div class="layui-col-xs12 titlebox-title left-middle-right-title">&nbsp;司机信息</div>
+                    </div>
+                    <div class="layui-row left-middle-right-content">
+                        <div class="layui-col-xs12" id="div_DriverInfo">
+                            <div id="div_Driver_img_box" class="div-driver-img-box backgroundimage-style">
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs5 div-driver-title">姓名：</div>
+                                <div class="layui-col-xs7 div-driver-value" id="div_Driver_Name"></div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs5 div-driver-title">电话：</div>
+                                <div class="layui-col-xs7 div-driver-value" id="div_Driver_Phone"></div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs5 div-driver-title">所属公司：</div>
+                                <div class="layui-col-xs7 div-driver-value" id="div_Driver_Company"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 左边下部 -->
+            <div class="layui-row left-bottom">
+                <div class="layui-col-xs12 left-bottom-img backgroundimage-style">
+                    <div class="layui-row left-bottom-titlebox">
+                        <div class="layui-col-xs12 titlebox-title">Can数据</div>
+                    </div>
+                    <div class="layui-row left-bottom-contentbox">
+                        <div class="layui-col-xs12 left-bottom-content">
+                            <div id="div_CanDataBox"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中间 -->
+        <div class="layui-col-xs6 center-box">
+            <!-- 中间上部 -->
+            <div class="layui-row center-top">
+                <div class="layui-col-md12 center-top-img backgroundimage-style">
+                    <div class="selectcar-box">
+                        <input id="txt_Carno" class="layui-input" autocomplete="off" />
+                        <div>
+                            <button id="btn_Search" class="layui-btn">查看</button>
+                            <button id="btn_TargetCars" class="layui-btn">目标车辆</button>
+                        </div>
+                    </div>
+                    <div id="amapCar_box">
+                        <div id="speed_box" class="speed-box backgroundimage-style">
+                            <img class="speed-box-img" src="Resource/images/CockpitDisplay/icon_cs.png" />
+                            <span id="lable_CarSpeed">0</span><span>KM/H</span>
+                        </div>
+                        <div id="amapCar" class="amapCar"></div>
+                        <i id="btn_Map_Zoomed" class="layui-icon layui-icon-screen-full"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- 中间下部 -->
+            <div class="layui-row center-bottom">
+                <div class="layui-col-xs12 center-bottom-img backgroundimage-style">
+                    <div class="layui-row center-bottom-titlebox">
+                        <div class="layui-col-xs12 titlebox-title">视频</div>
+                    </div>
+                    <div class="layui-row  center-bottom-contentbox">
+                        <div id="div_IfreamVideo" class="layui-col-xs12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右边 -->
+        <div class="layui-col-xs3 right-box">
+            <!-- 右边上部 -->
+            <div class="layui-row right-top">
+                <div class="layui-col-xs12 right-top-img backgroundimage-style">
+                    <div class="layui-row right-top-titlebox">
+                        <div class="layui-col-xs12 titlebox-title">监测数据</div>
+                    </div>
+                    <div class="layui-row right-top-cententbox">
+                        <div id="echarts_Line_box" class="layui-col-xs12">
+                            <button id="btn_SelectDataItem">选择Can通道</button>
+                            <div id="echarts_Line"></div>
+                            <i id="btn_EchartsLine_Zoomed" class="layui-icon layui-icon-screen-full"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右边中部 -->
+            <div class="layui-row right-middle">
+                <div class="layui-col-xs12 right-middle-img backgroundimage-style">
+                    <div class="layui-row right-middle-titlebox">
+                        <div class="layui-col-xs12 titlebox-title">事件列表</div>
+                    </div>
+                    <div class="layui-row right-middle-cententbox">
+                        <div id="tb_CarAlarm_box" class="layui-col-xs12">
+                            <div id="tb_CarAlarm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右边下部 -->
+            <div class="layui-row right-bottom">
+                <div class="layui-col-xs12 right-bottom-img backgroundimage-style">
+                    <div class="layui-row right-bottom-titlebox">
+                        <div class="layui-col-xs12 titlebox-title">统计信息</div>
+                    </div>
+                    <div class="layui-row right-bottom-cententbox">
+                        <div id="div_TongjiInfo_box" class="layui-col-xs12">
+                            <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>昨日总里程：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_ZuoRiTotalMileage">0</label>
+                                    <label>KM</label>
+                                </div>
+                            </div>
+                            <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>昨日自动驾驶里程：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_ZuoRiAutomaticMileage">0</label>
+                                    <label>KM</label>
+                                </div>
+                            </div>
+                            <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>昨日行驶总时长：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_ZuoRiTotalTime">0</label>
+                                    <label>H</label>
+                                </div>
+                            </div>
+                            <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>昨日自动驾驶时长：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_ZuoRiAutomaticTime">0</label>
+                                    <label>H</label>
+                                </div>
+                            </div>
+                            <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>最近7天总里程：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_SevenDayTotalMileage">0</label>
+                                    <label>KM</label>
+                                </div>
+                            </div>
+                            <!-- <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>最近7天自动驾驶里程：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_SevenDayAutomaticMileage">0</label>
+                                    <label>KM</label>
+                                </div>
+                            </div> -->
+                            <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>最近7天行驶总时长：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_SevenDayTotalTime">0</label>
+                                    <label>H</label>
+                                </div>
+                            </div>
+                            <!-- <div class='layui-row'>
+                                <div class='layui-col-md8 tongji-title'>最近7天自动驾驶时长：</div>
+                                <div class='layui-col-md4 tongji-value'>
+                                    <label id="tongji_SevenDayAutomaticTime">0</label>
+                                    <label>H</label>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layer_SelectDataItem" style="display: none;">
+        <div id="transfer_SelectDataItem"></div>
+        <div class="layer-bottom-btn-box">
+            <button type="button" class="layui-btn layui-btn-normal" id="btn_OK">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
+            <button type="button" class="layui-btn layui-btn-normal" id="btn_Close">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+        </div>
+    </div>
+
+    <div id="layer_SelectTargetCars" style="display: none;">
+        <div id="transfer_SelectTargetCars"></div>
+        <div class="layer-bottom-btn-box">
+            <button type="button" class="layui-btn layui-btn-normal"
+                id="btn_SelectTargetCars_OK">&nbsp;&nbsp;确定&nbsp;&nbsp;</button>
+            <button type="button" class="layui-btn layui-btn-normal"
+                id="btn_SelectTargetCars_Close">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+        </div>
+    </div>
+</body>
+
+</html>

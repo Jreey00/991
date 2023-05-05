@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>历史轨迹</title>
+    <link rel="stylesheet" type="text/css" href="Src/layui/layui/css/layui.css">
+    <script src="Src/requirejs/require.js"></script>
+    <script src="Config/config.js?v=1.0.0"></script>
+    <style>
+        .leftNav {
+            width: 30%;
+            height: 100%;
+            background-color: #fff;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+        }
+
+        .left {
+            /* width: 50%; */
+            /* max-width: 400px; */
+            position: fixed;
+            z-index: 999999;
+            transform: translateY(-50%);
+            top: 50%;
+            left: 30%;
+        }
+
+        .imgleft {
+            position: fixed;
+            z-index: 999;
+            top: 50%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+        }
+
+        .carInfo {
+            width: 100%;
+            height: 153px;
+        }
+
+        .videoInfo {
+            width: 100%;
+            height: 153px;
+        }
+
+        .canInfo {
+            width: 100%;
+            height: 153px;
+        }
+
+        .canEcharts {
+            width: 100%;
+            height: 153px;
+        }
+
+        .carHeader {
+            background: #F3F6FA;
+            padding: 5px;
+        }
+
+        .text {
+            font-weight: bold;
+            color: #44546F;
+        }
+
+        .texts {
+            width: 66px;
+            display: inline-block;
+        }
+
+        .content {
+            height: 120px;
+        }
+
+        .contents {
+            height: 229pxpx;
+        }
+
+        .cont {
+            height: 120px;
+        }
+
+        #lineecharts {
+            height: 120px;
+        }
+
+        /* chrome & safari 浏览器 */
+        /*滚动条整体部分,必须要设置*/
+        .overflow::-webkit-scrollbar {
+            width: 7px;
+
+            border-radius: 50px;
+        }
+
+        /*滚动条的轨道*/
+        .overflow::-webkit-scrollbar-track {
+            background-color: #D9E0EB;
+
+            border-radius: 50px;
+        }
+
+        /*滚动条的滑块按钮*/
+        .overflow::-webkit-scrollbar-thumb {
+            border-radius: 50px;
+            background-color: #8C9AAC;
+
+
+        }
+
+        /*滚动条的上下两端的按钮*/
+        .overflow::-webkit-scrollbar-button {
+            height: 0;
+            display: none;
+        }
+
+        .overflow {
+            overflow: auto
+        }
+
+        .but {
+            width: 30px;
+            height: 30px;
+            background-color: #FFF;
+            box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+            border-radius: 5px;
+            position: fixed;
+            z-index: 999999;
+            top: 35%;
+            left: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left">
+        <img class="imgleft" src="Resource/icon/icon_shouqi.png" alt="">
+        <img src="Resource/icon/img_shousuokuang.png" alt="">
+    </div>
+    <div class="but">
+        <img style="" src="Resource/icon/icon_shipingxinxi.png" alt="">
+    </div>
+    <div class="leftNav">
+        <div class="carInfo" id="carInfo" style="display:none;">
+            <div class="carHeader">
+                <img style="margin-left: 10px;" src="Resource/icon/icon_cheliangxinxi.png" alt="">
+                <span style="margin-left: 5px;font-size: 14px;font-weight: bold;color: #565D67;">车辆信息</span>
+                <div style="float: right;">
+                    <img id="closeButton1" src="Resource/icon/icon_del.png" alt="">
+                </div>
+            </div>
+            <div style="display: flex;height: 110px;">
+                <div
+                    style="width: 50%;font-weight: 400;color: #7C8590;font-size: 13px;display: flex;justify-content: space-around;flex-direction: column;">
+                    <div><span class="texts"> 车辆编号：</span><span class="text">YS1442 </span> </div>
+                    <div><span class="texts">终端编号：</span><span class="text">70830439</span></div>
+                    <div><span class="texts"> 车辆名称：</span> <span class="text">一汽解放J7H </span></div>
+                    <div> <span class="texts">驾 驶 员：</span> <span class="text">张三</span></div>
+                    <div> <span class="texts">联系电话：</span> <span class="text">13245677654</span></div>
+                </div>
+                <div style="width: 50%;display: flex;align-items: center;justify-content: flex-end;">
+                    <div style="width: 80px;height: 100px;border: 1px solid #000;">
+                        头像
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--    <div class="videoInfo" id="videoInfo">
+            <div class="carHeader">
+                <img style="margin-left: 10px;" src="Resource/icon/icon_shipingxinxi.png" alt="">
+                <span style="margin-left: 5px;font-size: 14px;font-weight: bold;color: #565D67;">视频信息</span>
+                <div style="float: right;">
+                    <img  id="closeButton2" src="Resource/icon/icon_del.png" alt="">
+                </div>
+            </div>
+            <div class="content"  id="div_IfreamVideo">
+  <!--  <video src="https://www.w3school.com.cn/i/movie.ogg" controls="controls" width="100%" height="123"></video> 
+            </div>
+        </div>  -->
+        <div class="canInfo" id="canInfo">
+            <div class="carHeader">
+                <img style="margin-left: 10px;" src="Resource/icon/icon_canshuju.png" alt="">
+                <span style="margin-left: 5px;font-size: 14px;font-weight: bold;color: #565D67;">CAN数据</span>
+                <!--  <div style="float: right;">
+                    <img src="Resource/icon/icon_del.png" alt="">
+                </div>  -->
+            </div>
+            <div class="contents overflow" style="height:190px !important;" id="carcontent">
+            </div>
+        </div>
+        <div class="canEcharts" id="canEcharts">
+            <div class="carHeader">
+                <img style="margin-left: 10px;" src="Resource/icon/icon_canquxian.png" alt="">
+                <span style="margin-left: 5px;font-size: 14px;font-weight: bold;color: #565D67;">CAN曲线</span>
+                <!--       <div style="float: right;">
+                    <img src="Resource/icon/icon_del.png" alt="">
+                </div>  -->
+            </div>
+            <div class="cont">
+                <div style="width: 410px;height: 100%;" id="lineecharts"></div>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    <!-- <div class="i-FloatingBox-SimpleData"> -->
+    <div id="i_Layer_CarStatistics">
+        <!-- <div class="i_Layer_CarStatisticsDiv" style="background-image: url('Resource/images/car_online.png')"> -->
+        <div class="i_Layer_CarStatisticsDiv">
+            <div class="i_Layer_CarStatisticsDivImg">
+                <img src="Resource/icon/icon_cheliangbianhaoa.png" style="width: 100%;" alt="">
+            </div>
+            <div class="i_Layer_CarStatisticsTitle">车辆编码
+                <!-- <span id="lb_SimpleData_CarNo" class="i_Layer_CarStatisticsValue"></span> -->
+                <p id="lb_SimpleData_CarNo" class="i_Layer_CarStatisticsValue"></p>
+            </div>
+            <!-- <div id="i_Layer_CarStatisticsValueOnline" class="i_Layer_CarStatisticsValue">0</div> -->
+        </div>
+        <div class="i_Layer_CarStatisticsDiv2">
+            <div class="i_Layer_CarStatisticsDivImg">
+                <img src="Resource/icon/icon_licheng.png" style="width: 100%;" alt="">
+            </div>
+            <div class="i_Layer_CarStatisticsTitle">里程
+                <!-- <span id="lb_SimpleData_CarNo" class="i_Layer_CarStatisticsValue">100</span> -->
+                <p id="lb_SimpleData_Mileage" class="i_Layer_CarStatisticsValue">0 km</p>
+            </div>
+            <!-- <div id="i_Layer_CarStatisticsValueOnline" class="i_Layer_CarStatisticsValue">0</div> -->
+        </div>
+        <div class="i_Layer_CarStatisticsDiv3">
+            <div class="i_Layer_CarStatisticsDivImg">
+                <img src="Resource/icon/icon_zuigaochesu.png" style="width: 100%;" alt="">
+            </div>
+            <div class="i_Layer_CarStatisticsTitle">最高车速
+                <!-- <span id="lb_SimpleData_maxSpeed" class="i_Layer_CarStatisticsValue">100</span> -->
+                <p id="lb_SimpleData_maxSpeed" class="i_Layer_CarStatisticsValue">0 km/h</p>
+            </div>
+            <!-- <div id="i_Layer_CarStatisticsValueOnline" class="i_Layer_CarStatisticsValue">0</div> -->
+        </div>
+        <!-- <div class="i_Layer_CarStatisticsDiv" style="background-image: url('Resource/images/car_offline.png')"> -->
+        <div class="i_Layer_CarStatisticsDiv1">
+            <div class="i_Layer_CarStatisticsDivImg">
+                <img src="Resource/icon/icon_zuidichesu.png" style="width: 100%;" alt="">
+            </div>
+            <div class="i_Layer_CarStatisticsTitle">平均车速
+                <p id="lb_SimpleData_minSpeed" class="i_Layer_CarStatisticsValue">0 km/h</p>
+            </div>
+            <!-- <div id="i_Layer_CarStatisticsValueOutline" class="i_Layer_CarStatisticsValue">0</div> -->
+        </div>
+    </div>
+    <!-- <label>车辆编码：</label>
+        <label id="lb_SimpleData_CarNo"></label>
+        <label>里程：</label>
+        <label id="lb_SimpleData_Mileage">0</label>
+        <label>km</label> -->
+    <!-- </div> -->
+    <div id="i-SearchTrackToolbar" class="i-FloatingBox-SearchData">
+        <div class="search-item">
+            <label>开始时间：</label>
+            <div class="search-input">
+                <input type="text" class="layui-input i-input" id="txt_StartTimeSearch">
+            </div>
+        </div>
+        <div class="search-item">
+            <label>结束时间：</label>
+            <div class="search-input">
+                <input type="text" class="layui-input i-input" id="txt_EndTimeSearch">
+            </div>
+        </div>
+        <div class="search-item">
+            <button class="layui-btn layui-btn-primary layui-btn-sm" id="btn_Search">
+                <i class="layui-icon">&#xe615;</i>查询
+            </button>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" id="btn_AdvancedSearch">
+                <i class="layui-icon">&#xe63c;</i>参数设置
+            </button>
+        </div>
+    </div>
+    <div id="i-Btn-EnterPlayback" class="i-FloatingBox-GoinHistoricalTrack">
+        <button style="color: #fff;border-radius: 20px;background-color:  #003B90;"
+            class="layui-btn layui-btn-normal i-Btn-GoinHistoricalTrack" id="btn_EnterHistoricalTrackPlayback">
+            <i class="iconfont i-Btn-icon-GoinHistoricalTrack">&#xe68f;</i>进入历史轨迹回放
+        </button>
+    </div>
+    <div class="tip">
+        <ul class="header_ul2">
+            <li style="background-color:#42E5E3">
+            </li>
+            <li style="background-color:#30ACFF">
+            </li>
+            <li style="background-color:#BA70FF">
+            </li>
+            <li style="background-color:#FFBF50">
+            </li>
+            <li style="background-color:#FF6464">
+            </li>
+        </ul>
+        <ul class="header_ul3">
+            <li>
+                0
+            </li>
+            <li>
+                30
+            </li>
+            <li>
+                60
+            </li>
+            <li>
+                90
+            </li>
+            <li>
+                120
+            </li>
+            <!-- <li>
+                (km/h)
+            </li> -->
+
+        </ul>
+        <span style="position: absolute;bottom: 6px;right: 0;color: #7C8590;">(km/h)</span>
+    </div>
+    <!--   <div id="i-Btn-ShowDisplayData" class="i-FloatingBox-GoinHistoricalTrack" style="display:none;z-index: 11;">
+        <button  style="color: #fff;border-radius: 20px;background-color:  #003B90;" id="i-Btn-EnterPlayback" class="layui-btn layui-btn-normal i-Btn-GoinHistoricalTrack" id="btn_ShowDisplayData">
+            同步回放数据
+        </button>
+    </div> -->
+    <div id="i-PlaybackToolbar" class="i-FloatingBox-PlaybackComponent" style="display:none;">
+        <div class="layui-form customize_form">
+            <div class="layui-form-item customize_form_item">
+                <div class="layui-input-inline customize_form_inline">
+                    <button class="layui-btn layui-btn-primary customize_btn"
+                        style="color: #fff;border-radius: 20px 0 0 20px;background-color:  #003B90;"
+                        id="btn_DropOutHistoricalTrackPlayback">退出回放</button>
+                </div>
+                <div class="layui-input-inline customize_form_inline div_cb_PlaySpeed">
+                    <select id="cb_PlaySpeed" lay-filter="cb_PlaySpeed">
+                        <option value="1000" selected>1X</option>
+                        <option value="500">2X</option>
+                        <option value="250">4X</option>
+                        <option value="100">10X</option>
+                        <option value="10">100X</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline customize_form_inline">
+                    <button class="layui-btn layui-btn-primary customize_btn iconfont icon-bofang1" title="开始"
+                        id="btn_StartOrPause"></button>
+                </div>
+                <div class="layui-input-inline customize_form_inline">
+                    <button class="layui-btn layui-btn-primary customize_btn iconfont icon-iconstop" title="停止"
+                        id="btn_Stop"></button>
+                </div>
+                <div class=" layui-input-inline customize_slider">
+                    <div id="slider_PlayProgress"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="Script/HistoricalTrack.js?v=1.0.0"></script>
+</body>
+
+</html>

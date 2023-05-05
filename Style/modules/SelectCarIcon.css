@@ -1,0 +1,47 @@
+#i_Layer_CarIcon .carststuecolor {
+	text-align: center;
+}
+
+#i_Layer_CarIcon .cariconbox {
+	text-align: center;
+	height: 80px;
+	line-height: 80px;
+}
+
+#i_Layer_CarIcon .layui-row {
+	margin-bottom: 10px;
+}
+
+#i_Layer_CarIcon .title {
+	font-size: 15px;
+	font-weight: bolder;
+}
+
+#i_Layer_CarIcon .colorblock {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	margin-right: 5px;
+	vertical-align: -2px;
+}
+
+#i_Layer_CarIcon .green {
+	background-color: #04c027;
+}
+
+#i_Layer_CarIcon .red {
+	background-color: #ea0705;
+}
+
+#i_Layer_CarIcon .gray {
+	background-color: #807e7e;
+}
+
+#i_Layer_CarIcon .layui-form-radio {
+	margin: 0px;
+	padding: 0px;
+}
+
+#i_Layer_CarIcon .block2 {
+	margin-top: 30px;
+}

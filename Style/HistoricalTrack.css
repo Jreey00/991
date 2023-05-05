@@ -1,0 +1,374 @@
+html {
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+}
+
+.i-FloatingBox-SimpleData {
+	position: fixed;
+	z-index: 10;
+	top: 15px;
+	left: 20px;
+	background-color: #1e9fff;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 15px;
+}
+
+.i-FloatingBox-PolylineLegend {
+	display: none;
+	position: fixed;
+	z-index: 10;
+	top: 55px;
+	left: 20px;
+	background-color: #1e9fff;
+	color: white;
+	border-radius: 5px;
+	height: 90px;
+	line-height: 30px;
+	padding: 0 15px;
+}
+
+.i-FloatingBox-PolylineLegend .span-Style {
+	vertical-align: -4px;
+	padding: 0 10px;
+	margin-right: 10px;
+}
+
+.i-FloatingBox-SearchData {
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	position: fixed;
+	z-index: 10;
+	top: 15px;
+	right: 20px;
+	background-color: #ffffff;
+	color: #44546f;
+	border-radius: 5px;
+	text-align: center;
+	padding: 5px 15px;
+}
+
+.i-FloatingBox-SearchData .search-item {
+	height: 35px;
+	line-height: 35px;
+}
+
+.i-FloatingBox-SearchData .search-item .search-input {
+	display: inline-block;
+	width: 180px;
+}
+
+.i-FloatingBox-GoinHistoricalTrack {
+	position: fixed;
+	z-index: 10;
+	bottom: 15px;
+	right: 20px;
+}
+
+.i-input {
+	height: 30px;
+	line-height: 30px;
+}
+
+.i-Btn-GoinHistoricalTrack {
+	height: 40px;
+	line-height: 40px;
+}
+
+.i-Btn-icon-GoinHistoricalTrack {
+	padding: 0 10px 0 0;
+	font-size: 30px;
+	vertical-align: middle;
+}
+
+.tip {
+	position: fixed;
+	z-index: 10;
+	bottom: 70px;
+	right: 20px;
+	background-color: #ffffff;
+	width: 250px;
+	height: 40px;
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	border-radius: 5px;
+}
+
+#speedbiao {
+	position: fixed;
+	z-index: 10;
+	bottom: 10px;
+	right: 20px;
+	width: 200px;
+	height: 200px;
+}
+#speeds {
+	position: fixed;
+	z-index: 10;
+	bottom: 210px;
+	right: 20px;
+	width: 200px;
+	height: 200px;
+}
+
+.tips {
+	position: fixed;
+	z-index: 10;
+	top: 50px;
+	right: 20px;
+	background-color: #ffffff;
+	width: 250px;
+	height: 40px;
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	border-radius: 5px;
+}
+.header_ul2 {
+	display: flex;
+	list-style: none;
+	padding: 0 13px;
+}
+.header_ul2 li {
+	height: 7px;
+	margin-top: 10px;
+	flex: 1;
+}
+.header_ul2 li:not(:first-child) {
+	margin-left: 2px;
+}
+.header_ul3 {
+	position: relative;
+	display: flex;
+	list-style: none;
+	padding: 0 13px;
+}
+.header_ul3 li:first-child {
+	margin-left: -5px;
+}
+.header_ul3 li {
+	margin-left: -8px;
+	color: #7c8590;
+	height: 10px;
+	margin-top: 2px;
+	flex: 1;
+}
+
+.i-FloatingBox-PlaybackComponent {
+	position: fixed;
+	z-index: 10;
+	left: 54px;
+	bottom: 0;
+	width: 100%;
+}
+
+.customize_form {
+	width: 650px;
+	margin: 0px auto;
+	margin-bottom: 0px !important;
+	background-color: #1e9fff;
+	text-align: center !important;
+	border-radius: 7px 7px 0 0;
+}
+
+.customize_form_item {
+	/* margin-bottom: 0px !important; */
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	border-radius: 5px;
+	background-color: #ffffff;
+}
+
+.layui-form-select dl dd.layui-this {
+	background-color: #003b90;
+	color: #fff;
+}
+.layui-form-select .layui-input {
+	background-color: #003b90;
+	color: #fff;
+}
+
+.customize_form_inline {
+	float: none !important;
+	width: auto !important;
+	height: 46px;
+	line-height: 46px;
+	margin-right: 2px !important;
+}
+
+.customize_slider {
+	width: 250px !important;
+	display: inline-block;
+	float: none !important;
+	margin-left: 10px;
+}
+
+.customize_btn {
+	color: #fff;
+	background-color: #003b90;
+	height: 30px !important;
+	line-height: 28px !important;
+	padding: 0 10px !important;
+}
+
+.div_cb_PlaySpeed {
+	width: 150px !important;
+}
+
+.div_cb_PlaySpeed div {
+	top: 10px;
+}
+
+.div_cb_PlaySpeed div div input {
+	height: 28px;
+	line-height: 28px;
+}
+
+#transfer_SelectDataItem {
+	padding: 20px 0px 0px 20px;
+}
+
+.layui-btn-primary:hover {
+	color: #fff;
+}
+
+.background_color_red {
+	background-color: #ff0000;
+}
+
+.background_color_9400D3 {
+	background-color: #9400d3;
+}
+
+.background_color_54FF9F {
+	background-color: #54ff9f;
+}
+
+.i_Layer_CarStatisticsDiv {
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	position: relative;
+	width: 130px;
+	height: 47px;
+	background: #ffffff;
+	border-radius: 26px 0px 0px 26px;
+	/* width: 185px;
+    height: 90px; */
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.i_Layer_CarStatisticsDivImg {
+	position: absolute;
+	left: 10px;
+	top: 20%;
+	border-radius: 50%;
+	background-color: #ffffff;
+	width: 30px;
+	height: 30px;
+}
+
+.layui-laydate .layui-this {
+	background-color: #009 !important;
+	color: #fff !important;
+}
+
+.i_Layer_CarStatisticsDiv1 {
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	position: relative;
+	width: 130px;
+	height: 47px;
+	background: #ffffff;
+	border-radius: 0px 26px 26px 0px;
+	/* width: 185px;
+    height: 90px; */
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.i_Layer_CarStatisticsDiv2 {
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	position: relative;
+	width: 130px;
+	height: 47px;
+	background: #ffffff;
+	/* border-radius: 0px 26px 26px 0px; */
+	/* width: 185px;
+    height: 90px; */
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.i_Layer_CarStatisticsDiv3 {
+	box-shadow: 0px 2px 10px rgb(0 0 0 / 15%);
+	position: relative;
+	width: 130px;
+	height: 47px;
+	background: #ffffff;
+	/* border-radius: 0px 26px 26px 0px; */
+	/* width: 185px;
+    height: 90px; */
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.i_Layer_CarStatisticsTitle {
+	font-size: 14px;
+	color: #7c8590;
+	padding-left: 47px;
+	padding-top: 5px;
+	padding-bottom: 8px;
+}
+
+.i_Layer_CarStatisticsValue {
+	font-size: 16px;
+	color: #003b90;
+	font-weight: bolder;
+}
+#i_Layer_CarStatistics {
+	position: fixed;
+	z-index: 10;
+	top: 30px;
+	/* left: 12px; */
+	left: 50%;
+	transform: translateX(-50%);
+	color: #ffffff;
+}
+.i-input {
+	color: #7c8590;
+}
+#btn_Search {
+	width: 70px;
+	height: 32px;
+	color: #ffffff;
+	background: #063c91;
+	border-radius: 18px;
+}
+#btn_AdvancedSearch {
+	width: 100px;
+	color: #ffffff;
+	height: 32px;
+	background: #8c9aac;
+	border-radius: 18px;
+}
+.layui-slider-wrap-btn {
+	border: 2px solid #009 !important;
+}
+.layui-laydate-footer span:hover {
+	color: #009;
+}
